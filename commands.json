@@ -1,0 +1,55 @@
+  "commands": {
+    "close_tab" : {
+      "suggested_key": {
+        "default" : "Ctrl+Q"
+      },
+      "description": "Close Tab"
+    },
+    "duplicate" : {
+      "suggested_key": {
+        "default" : "Ctrl+D"
+      },
+      "description": "Duplicate Tab"
+    },
+    "extensions" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+E"
+      },
+      "description": "Extensions"
+    },
+    "apps" : {
+      "suggested_key": 
+         {"default" : "Ctrl+Shift+A"
+      },
+      "description": "Apps"
+    },
+    "bookmarks" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+B"
+      },
+      "description": "Bookmarks"
+    },
+    "settings" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+S"
+      },
+      "description": "Settings"
+    },
+    "inbox" : {
+      "suggested_key":    {
+        "default" : "Ctrl+Shift+I"
+      },
+      "description": "Inbox"
+    },
+    "drive" : {
+      "suggested_key":    {
+        "default" : "Ctrl+Shift+D"
+      },
+      "description": "Drive"
+    },
+    "music" : {
+      "suggested_key":    {
+        "default" : "Ctrl+Shift+M"
+      },
+      "description": "Music"
+    }

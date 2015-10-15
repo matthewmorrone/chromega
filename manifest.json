@@ -1,0 +1,80 @@
+{
+  "name" : "Keyboard Shortcuts",
+  "manifest_version": 2,
+  "version": "1.0.0",
+  "description" : "As many useful keyboard shortcuts in a single extension as possible.",
+  // "permissions" : [ "history" ],
+  "background": {
+    // "page": "background.html",
+    "scripts": ["background.js"],
+    "persistent": true
+  },
+  "content_scripts" : [{
+    "matches" : [
+      "http://*/*",
+      "https://*/*"
+    ],
+    "js" : ["jquery.js", "util.js", "keys.js", "content.js"],
+    "css" : ["content.css"],
+    "run_at" : "document_end",
+    // "document_start", "document_end", or "document_idle"
+    "all_frames" : false,
+    "match_about_blank": true
+  }],
+  "commands": {
+    "duplicate" : {
+      "suggested_key": {
+        "default" : "Ctrl+D"
+      },
+      "description": "Duplicate Tab"
+    },
+    "extensions" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+E"
+      },
+      "description": "Extensions"
+    },
+    "bookmarks" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+B"
+      },
+      "description": "Bookmarks"
+    },
+    "settings" : {
+      "suggested_key": {
+        "default" : "Ctrl+Shift+S"
+      },
+      "description": "Settings"
+    }
+  },
+  "permissions": [ 
+    "activeTab",
+    "background",
+    "bookmarks",
+    "browsingData",
+    "clipboardRead",
+    "clipboardWrite",
+    "contentSettings",
+    "contextMenus",
+    "cookies",
+    "debugger",
+    "desktopCapture",
+    "downloads",
+    "geolocation",
+    "history",
+    "identity",
+    "idle",
+    "management",
+    "pageCapture",
+    "privacy",
+    "storage",
+    "tabCapture",
+    "tabs",
+    "unlimitedStorage",
+    "webNavigation",
+    "webRequest",
+    "declarativeWebRequest",
+    "*://*/*",
+    "webRequestBlocking"
+  ]
+}

@@ -1,0 +1,9 @@
+.jS.k1 {
+  display: none;
+}
+.jS.kl,
+#pagelet_ego_pane,
+.friendBrowserListUnit,
+.homeSideNav:not(:first-child) {
+  display: none;
+}
