@@ -1,46 +1,4 @@
 
-function KeyListener(e, d) {
-	var result = "";
-	if (e.ctrlKey) 	{result += "ctrl+"}
-	if (e.altKey) 	{result += "alt+"}
-	if (e.shiftKey) {result += "shift+"}
-	if (e.metaKey) 	{result += "meta+"}
-	if (d) {
-		groupCollapsed(result+keys[e.which], e.type);
-			log("which: " + e.which)
-			log("charCode: " + e.charCode)
-			log("keyCode: " + e.keyCode)
-			log("keyIdentifier: " + e.keyIdentifier)
-			log(e)
-		groupEnd();
-	}
-	return result+keys[e.which];
-
-}
-var commands = {
-	"ctrl+e" : "extensions",
-	"ctrl+." : "settings",
-	"ctrl+g" : "duplicate",
-	"ctrl+b" : "bookmarks",
-}
-
-//The key listening event should only be bound to the top window
-if (window == top) {
-	window.addEventListener("keydown", function(e) {
-		var seq = KeyListener(e)
-		var com = commands[seq]
-		if (com) {
-			log(seq, com)
-			commander(commands[seq])
-
-		}
-	}, false); 
-	// window.addEventListener("keyup", function(e) {KeyListener(e)}, false); 
-	// window.addEventListener("keypress", function(e) {KeyListener(e)}, false); 
-
-}
-
-
 if (window.location.host === "www.google.com") {
 	$(".r").each(function() {
 		$(this).find("a").each(function() {
@@ -58,10 +16,10 @@ if (window.location.host === "www.facebook.com") {
 if (window.location.host === "inbox.google.com") {
 	$(".jS.kl").remove()
 	function removeImages() {
-	    setTimeout(function() {
-	        $(".jS.kl").remove()
-	        window.requestAnimationFrame(removeImages)
-	    }, 1000)
+		setTimeout(function() {
+			$(".jS.kl").remove()
+			window.requestAnimationFrame(removeImages)
+		}, 1000)
 	}
 	// window.requestAnimationFrame(removeImages)
 }
@@ -71,10 +29,22 @@ if (window.location.host === "gist.github.com") {
 	})
 }
 if (window.location.pathname === "/pin/create/extension/") {
-    $(".selected").click()
+	$(".selected").click()
+	
 }
-
-
+var langs = ["javascript", "coffeescript", "css", "html", "livescript", "purescript", "autohotkey", "php", "json"];
+if (window.location.host.includes("github")) {
+	$(".repo-list li").each(function() {
+		if (!$(this).hasClass("source")) {
+			$(this).remove();
+			return;
+		}
+		var lang = $(this).find(".repo-list-stats")[0].childNodes[0].textContent.trim().toLowerCase();
+		if ($.inArray(lang, langs) === -1) {
+			$(this).remove();	  
+		}
+	})
+}
 
 
 

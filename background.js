@@ -4,8 +4,7 @@ function getTab(sender, count) {
 		return chrome.tabs.update(newTabId, {active: true});
 	});
 }
-
-function commander(command) {
+chrome.commands.onCommand.addListener(function/* commander*/(command) {
 	switch (command) {
 		case "next_tab":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
@@ -52,6 +51,50 @@ function commander(command) {
 		break; 
 		default: break;
 	}
+});
+
+
+function KeyListener(e, d) {
+	var result = "";
+	if (e.ctrlKey) 	{result += "ctrl+"}
+	if (e.altKey) 	{result += "alt+"}
+	if (e.shiftKey) {result += "shift+"}
+	if (e.metaKey) 	{result += "meta+"}
+	if (d) {
+		groupCollapsed(result+keys[e.which], e.type);
+			log("which: " + e.which)
+			log("charCode: " + e.charCode)
+			log("keyCode: " + e.keyCode)
+			log("keyIdentifier: " + e.keyIdentifier)
+			log(e)
+		groupEnd();
+	}
+	return result+keys[e.which];
+
+}
+var commands = {
+	"ctrl+e" : "extensions",
+	"ctrl+." : "settings",
+	"ctrl+g" : "duplicate",
+	"ctrl+b" : "bookmarks",
 }
 
-chrome.commands.onCommand.addListener(commander);
+
+
+//The key listening event should only be bound to the top window
+if (window == top) {
+	window.addEventListener("keydown", function(e) {
+		var seq = KeyListener(e)
+		var com = commands[seq]
+		if (com) {
+			log(seq, com)
+			commander(commands[seq])
+		}
+	}, false); 
+	// window.addEventListener("keyup", function(e) {KeyListener(e)}, false); 
+	// window.addEventListener("keypress", function(e) {KeyListener(e)}, false); 
+}
+
+
+
+
