@@ -15,7 +15,7 @@
     ],
     "js" : ["jquery.js", "util.js", "keys.js", "content.js"],
     "css" : ["content.css"],
-    "run_at" : "document_start",
+    "run_at" : "document_end",
     // "document_start", "document_end", or "document_idle"
     "all_frames" : false,
     "match_about_blank": true
@@ -46,7 +46,7 @@
       "description": "Settings"
     }
   },
-  "permissions": [ 
+  "permissions": [
     "activeTab",
     "background",
     "bookmarks",
