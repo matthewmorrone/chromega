@@ -1,8 +1,6 @@
-.jS.k1 {
-  display: none;
-}
 .jS.kl,
 #pagelet_ego_pane,
+.fbChatSidebar,
 .friendBrowserListUnit,
 .homeSideNav:not(:first-child) {
   display: none;

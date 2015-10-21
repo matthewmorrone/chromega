@@ -8,7 +8,7 @@ if (window.location.host === "www.google.com") {
 	})
 }
 if (window.location.host === "www.facebook.com") {
-	$(".jS.kl,#pagelet_ego_pane,.friendBrowserListUnit,.homeSideNav:not(:first-child)").hide();
+	$(".jS.kl,#pagelet_ego_pane,.friendBrowserListUnit,.homeSideNav:not(:first-child),.fbChatSidebar").hide();
 	if (!window.location.pathname.startsWith("/messages")) {
 		window.location.href = "https://www.facebook.com/messages";
 	}
