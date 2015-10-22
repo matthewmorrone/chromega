@@ -1,4 +1,5 @@
 console.clear()
+console.log(window.location.host);
 if (window.location.host === "www.google.com") {
 	$(".r").each(function() {
 		$(this).find("a").each(function() {
@@ -6,6 +7,12 @@ if (window.location.host === "www.google.com") {
 			$(this).removeAttr("onmousedown")
 		})
 	})
+}
+function trollolol() {
+	var $ul = $('ul[data-reactid*=".$ordered_list"]')
+	$('li', $ul).sort(function(a, b){
+		return (Math.round(Math.random()) - 0.5)
+	}).appendTo($ul)
 }
 if (window.location.host === "www.facebook.com") {
 	$(".jS.kl,#pagelet_ego_pane,.friendBrowserListUnit,.homeSideNav:not(:first-child),.fbChatSidebar").hide();
@@ -27,18 +34,22 @@ if (window.location.host === "www.facebook.com") {
 		fbChatAugment()
 	}, 10000)
 
-	$(document).on("mouseover", ".fbChatOrderedList", function() {
-		fbChatAugment()
+	// $(document).on("mouseover", ".fbChatOrderedList", function() {
+	// 	fbChatAugment()
 
-		var $ul = $('ul[data-reactid*=".$ordered_list"]')
-		$('li', $ul).sort(function(a, b){
-			return (Math.round(Math.random()) - 0.5)
-		}).appendTo($ul)
-	})
+	// 	// setTimeout(trollolol, 30*1000);
+	// })
 
 }
 function fbChatAugment() {
-	$('._554m').remove();
+	$('._554m, ._55lt, ._56p9, ._3jy5, ._2w7').remove();
+	$('.MercuryThreadImage').remove();
+
+
+// _3jy5 seenByListener repliedLast seenByAll
+
+
+
 	$('.moreOnlineFriends').remove();
 	$('ul[data-reactid*=".2:$more_online_friends"] li').each(function(index, value){
 		$('ul[data-reactid*=".$ordered_list"]').append(value);
@@ -49,7 +60,20 @@ function fbChatAugment() {
 			$(this).remove()
 		}
 	})
-	var $ul = $('ul[data-reactid*=".$ordered_list"]')
+
+	var $ul = $('ul[data-reactid*=".$ordered_list"]'), fullname, firstname, lastname
+	$('li', $ul).each(function(){
+		fullname = $(this).find("._55lr span").text().replace(" Jr.", "").replace(" II", "")
+		if (fullname.includes(",")) {return;}
+		fullname = fullname.split(" ");
+		lastname = fullname.pop();
+		firstname = fullname[0];
+		fullname = fullname.join(" ");
+		console.log(lastname + ", " + fullname)
+		$(this).find("._55lr span").text(lastname + ", " + firstname)
+	})
+
+
 	$('li', $ul).sort(function(a, b){
 		if($(a).find("._55lr span").text() < $(b).find("._55lr span").text()) return -1;
 		if($(a).find("._55lr span").text() > $(b).find("._55lr span").text()) return 1;
@@ -67,7 +91,8 @@ if (window.location.host === "inbox.google.com") {
 	// window.requestAnimationFrame(removeImages)
 }
 if (window.location.host === "gist.github.com") {
-	$('[placeholder="Search…"]').on("focus", function() {
+	// $('[placeholder="Search…"]').on("focus", function() {
+	$('.js-quicksearch-field').on("focus", function() {
 		$(this).val("user:matthewmorrone1 ");
 	})
 }

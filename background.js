@@ -4,7 +4,8 @@ function getTab(sender, count) {
 		return chrome.tabs.update(newTabId, {active: true});
 	});
 }
-chrome.commands.onCommand.addListener(function/* commander*/(command) {
+var commander = function commander(command) {
+	console.log(command);
 	switch (command) {
 		case "next_tab":
 			chrome.tabs.query({active: true, currentWindow: true}, function(tab) {
@@ -51,7 +52,9 @@ chrome.commands.onCommand.addListener(function/* commander*/(command) {
 		break; 
 		default: break;
 	}
-});
+};
+
+chrome.commands.onCommand.addListener(commander);
 
 
 function KeyListener(e, d) {
@@ -62,11 +65,11 @@ function KeyListener(e, d) {
 	if (e.metaKey) 	{result += "meta+"}
 	if (d) {
 		groupCollapsed(result+keys[e.which], e.type);
-			log("which: " + e.which)
-			log("charCode: " + e.charCode)
-			log("keyCode: " + e.keyCode)
-			log("keyIdentifier: " + e.keyIdentifier)
-			log(e)
+			console.log("which: " + e.which)
+			console.log("charCode: " + e.charCode)
+			console.log("keyCode: " + e.keyCode)
+			console.log("keyIdentifier: " + e.keyIdentifier)
+			console.log(e)
 		groupEnd();
 	}
 	return result+keys[e.which];
@@ -79,15 +82,15 @@ var commands = {
 	"ctrl+b" : "bookmarks",
 }
 
-
+console.log(commands);
 
 //The key listening event should only be bound to the top window
 if (window == top) {
 	window.addEventListener("keydown", function(e) {
 		var seq = KeyListener(e)
 		var com = commands[seq]
+		console.log(seq, com)
 		if (com) {
-			log(seq, com)
 			commander(commands[seq])
 		}
 	}, false); 
