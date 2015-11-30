@@ -1,78 +1,92 @@
 {
-  "name" : "Chromega",
-  "manifest_version": 2,
-  "version": "1.0.0",
-  "description" : "As many useful keyboard shortcuts in a single extension as possible.",
-  "background": {
-    // "page": "background.html",
-    "scripts": ["background.js"],
-    "persistent": true
-  },
-  "content_scripts" : [{
-    "matches" : [
-      "http://*/*",
-      "https://*/*"
-    ],
-    "js" : ["jquery.js", "util.js", "content.js"],
-    "css" : ["content.css"],
-    "run_at" : "document_end",
-    // "document_start", "document_end", or "document_idle"
-    "all_frames" : false,
-    "match_about_blank": true
-  }],
-  "commands": {
-    "duplicate" : {
-      "suggested_key": {
-        "default" : "Ctrl+G"
-      },
-      "description": "Duplicate Tab"
-    },
-    "extensions" : {
-      "suggested_key": {
-        "default" : "Ctrl+E"
-      },
-      "description": "Extensions"
-    },
-    "bookmarks" : {
-      "suggested_key": {
-        "default" : "Ctrl+B"
-      },
-      "description": "Bookmarks"
-    },
-    "settings" : {
-      "suggested_key": {
-        "default" : "Ctrl+Period"
-      },
-      "description": "Settings"
-    }
-  },
-  "permissions": [
-    "*://*/*",
-    "activeTab",
-    "background",
-    "bookmarks",
-    "browsingData",
-    "clipboardRead",
-    "clipboardWrite",
-    "contentSettings",
-    "contextMenus",
-    "cookies",
-    "debugger",
-    "desktopCapture",
-    "downloads",
-    "geolocation",
-    "history",
-    "identity",
-    "idle",
-    "management",
-    "pageCapture",
-    "privacy",
-    "storage",
-    "tabCapture",
-    "tabs",
-    "unlimitedStorage",
-    "webNavigation",
-    "webRequest",
-    "webRequestBlocking"
-  ]
+	"name": "Chromega",
+	"manifest_version": 2,
+	"version": "1.0.0",
+	"description": "As many useful keyboard shortcuts in a single extension as possible, plus other stuff.",
+	"icons": {
+		"16": "psi.png",
+		"48": "psi.png",
+		"128": "psi.png"
+	},
+	"browser_action": {
+		"default_icon": {
+			"19": "psi.png",
+			"38": "psi.png"
+		},
+		"default_title": "Chromega",
+		"default_popup": "options.html"
+	},
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": true
+	},
+	"content_scripts": [{
+		"matches": [
+			"http://*/*",
+			"https://*/*"
+		],
+		"js": ["jquery.js", "util.js", "content.js"],
+		"css": ["content.css"],
+		"run_at": "document_end",
+		"all_frames": false,
+		"match_about_blank": true
+	}],
+	"options_ui": {
+		"page": "options.html",
+		"chrome_style": true
+	},
+	"commands": {
+		"duplicate": {
+			"suggested_key": {
+				"default": "Ctrl+G"
+			},
+			"description": "Duplicate Tab"
+		},
+		"extensions": {
+			"suggested_key": {
+				"default": "Ctrl+E"
+			},
+			"description": "Extensions"
+		},
+		"bookmarks": {
+			"suggested_key": {
+				"default": "Ctrl+B"
+			},
+			"description": "Bookmarks"
+		},
+		"settings": {
+			"suggested_key": {
+				"default": "Ctrl+Period"
+			},
+			"description": "Settings"
+		}
+	},
+	"permissions": [
+		"*://*/*",
+		"activeTab",
+		"background",
+		"bookmarks",
+		"browsingData",
+		"clipboardRead",
+		"clipboardWrite",
+		"contentSettings",
+		"contextMenus",
+		"cookies",
+		"debugger",
+		"downloads",
+		// "downloads.shelf",
+		"geolocation",
+		"history",
+		"identity",
+		"idle",
+		"management",
+		"pageCapture",
+		"privacy",
+		"storage",
+		"tabCapture",
+		"tabs",
+		"webNavigation",
+		"webRequest",
+		"webRequestBlocking"
+	]
 }
