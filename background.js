@@ -12,6 +12,11 @@ function getTab(sender, count) {
 }
 var commander = function commander(command) {
 	switch (command) {
+	case "invert":
+		var style = document.createElement('style')
+		style.appendChild(document.createTextNode('body{-webkit-filter:invert(100%);background-color:black;}'))
+		document.head.appendChild(style)
+	break;
 	case "next_tab":
 		chrome.tabs.query({
 			active: true,
@@ -120,6 +125,7 @@ var commands = {
 	"ctrl+.": "settings",
 	"ctrl+g": "duplicate",
 	"ctrl+b": "bookmarks",
+	"ctrl+i": "invert",
 }
 
 

@@ -3,5 +3,9 @@
 .fbChatSidebar,
 .friendBrowserListUnit,
 .homeSideNav:not(:first-child) {
-  display: none;
+	display: none;
 }
+/*body {
+	-webkit-filter:invert(100%);
+	background-color: black !important;
+}*/

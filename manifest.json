@@ -60,6 +60,13 @@
 			},
 			"description": "Settings"
 		}
+		//,
+		// "invert": {
+		// 	"suggested_key": {
+		// 		"default": "Ctrl+I"
+		// 	},
+		// 	"description": "Invert"
+		// }
 	},
 	"permissions": [
 		"*://*/*",

@@ -4,7 +4,7 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
-	console.log(items)
+
 	if (window.location.host === "www.google.com" && items.google) {
 		$(".r").each(function () {
 			$(this).find("a").each(function () {
@@ -32,6 +32,11 @@ chrome.storage.sync.get(function(items) {
 		$('.js-site-search-focus').on("focus", function () {
 			$(this).val("user:matthewmorrone1 ");
 		})
+	// 	setTimeout(function() {
+	// 		$('.repo_filterer li:eq(2) a').click()
+	// 		$('.js-repo-filter-tab').eq(1).click()
+	// 		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
+	// }, 1000)
 	}
 	if (window.location.host.includes("pinterest") && items.pinterest) {
 		$(document).on("mouseover", ".item.selected", function (e) {
@@ -50,7 +55,8 @@ chrome.storage.sync.get(function(items) {
 		}
 	}
 });
-
+// github repo filter
+// https://gist.github.com/matthewmorrone1/60356a70f10619ced0bd
 
 
 
