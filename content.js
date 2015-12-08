@@ -4,6 +4,37 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
+	if (window.location.host.includes("cracked") && window.location.pathname.includes("article")) {
+		var loc, next, sec
+
+		loc = window.location.href
+		if (loc.split("_").last() === "p2.html") {
+			nex = loc.replace("_p2.html", ".html")
+			window.location.href = nex
+		}
+
+		nex = loc.split(".")
+		nex.pop()
+		nex = nex.join(".") + "_p2.html"
+		sec = document.createElement("div")
+
+		$(".leftColumn").find(".PaginationContent").remove()
+		$(".leftColumn").after(sec)
+
+		$(sec).addClass(".leftColumn")
+		$(sec).load(nex+" .leftColumn", function() {
+			$(sec).find("img").each(function() {
+				console.log($(this).attr("data-img"))
+				$(this).attr("src", $(this).attr("data-img"))
+				console.log($(this).attr("src"), $(this).attr("data-img"))
+			})
+		})
+
+	}
+
+
+
+
 
 	if (window.location.host === "www.google.com" && items.google) {
 		$(".r").each(function () {

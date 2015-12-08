@@ -11,6 +11,11 @@ if (!jQuery) {
 	jq.src = "https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js";
 	document.getElementsByTagName('head')[0].appendChild(jq);
 }
+if (!Array.prototype.last){
+    Array.prototype.last = function(){
+        return this[this.length - 1];
+    };
+};
 Object.defineProperty(Object.prototype, "define", {
 	configurable: true,
 	enumerable: false,
