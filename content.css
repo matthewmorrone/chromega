@@ -9,3 +9,12 @@
 	-webkit-filter:invert(100%);
 	background-color: black !important;
 }*/
+.export {
+	background-color: rgba(255, 255, 0, .5) !important;
+}
+.export-button {
+	margin: 0px;
+}
+.wikitable {
+	margin-top: 0px !important;
+}
