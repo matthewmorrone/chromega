@@ -10,9 +10,21 @@ center iframe {
 	display: none;
 }
 
+
 #accountListTable tr:nth-child(3) {
 	background: #f3f3f3;	
 }
 .noredirect {
 	font-size: 18px;
 }
+
+.export {
+	background-color: rgba(255, 255, 0, .5) !important;
+}
+.export-button {
+	margin: 0px;
+}
+.wikitable {
+	margin-top: 0px !important;
+}
+
