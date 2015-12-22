@@ -2,10 +2,17 @@
 #pagelet_ego_pane,
 .fbChatSidebar,
 .friendBrowserListUnit,
-.homeSideNav:not(:first-child) {
+.homeSideNav:not(:first-child),
+#accountListTable tr:nth-child(2),
+#accountListTable tr:last-child,
+#accountListTable tr:nth-last-child(1)
+center iframe {
 	display: none;
 }
-/*body {
-	-webkit-filter:invert(100%);
-	background-color: black !important;
-}*/
+
+#accountListTable tr:nth-child(3) {
+	background: #f3f3f3;	
+}
+.noredirect {
+	font-size: 18px;
+}
