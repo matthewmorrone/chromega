@@ -104,6 +104,13 @@ chrome.storage.sync.get(function(items) {
 	}
 	if (window.location.host.includes("global1.onlinebank")) {
 		$("#accountListTable tr:last-child").remove()
+		$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
+		$("#payTo option:last-child").html("Savings")
+		$("#payFrom option, #payTo option").each(function() {
+			$(this).html($(this).text().replace(/\*\d\-\d+/g, ""))
+			$(this).html($(this).text().replace(/ 10 /, ""))
+		})
+
 	}
 	if (window.location.host.includes("peopleclick")) {
 
