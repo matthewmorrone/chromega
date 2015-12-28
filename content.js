@@ -127,7 +127,7 @@ chrome.storage.sync.get(function(items) {
 			}, 1000)
 		})
 	}
-	if (window.location.host === "www.google.com" && items.google) {
+	if (window.location.host === "www.google.com"/* && items.google*/) {
 		var a, href, datahref, text
 		$(".r").each(function() {
 			$(this).find("a").each(function() {
@@ -142,10 +142,11 @@ chrome.storage.sync.get(function(items) {
 		})
 		$(document).on("click", ".r a", function(e) {
 			e.preventDefault()
+			e.stopPropagation()
 			href = $(this).attr("href")
 			text = $(this).text()
 			datahref = $(this).attr("data-href")
-			if (datahref && !$(this).hasClass(".noredirect")) {
+			if (datahref/* && !$(this).hasClass(".noredirect")*/) {
 				a = $("<a></a>")
 				a[0].href = datahref
 				a[0].innerHTML = text
@@ -155,22 +156,8 @@ chrome.storage.sync.get(function(items) {
 				$(this).remove()
 				$(a).click()
 			}
-			// if ($(this).hasClass(".noredirect")) {
-			// 	$(this).off("click")
-			// 	$(this).click()
-			// }
+			return false
 		})
-		// $(document).on("mouseover", ".noredirect", function(e) {
-		// 	e.preventDefault()
-		// 	// var win = window.open(href, '_blank');
-		// 	ev = $.Event('click')
-		// 	ev.which = 17
-		// 	ev.ctrlKey = true
-		// 	// ev.shiftKey = true
-		// 	console.log(ev, $(this), e)
-		// 	$(this).trigger(ev)
-		// 	// win.focus();				
-		// })
 	}
 	if (window.location.host === "inbox.google.com" && items.googleInbox) {
 		$(".jS.kl").remove()
