@@ -1,3 +1,8 @@
+body.uber-frame #advanced-settings {
+	display: block !important;
+	height: auto !important;
+}
+
 .jS.kl,
 #pagelet_ego_pane,
 .fbChatSidebar,
@@ -9,18 +14,6 @@
 center iframe {
 	display: none;
 }
-
-/*
-#payFrom option:last-child,
-#payFrom option:nth-child(3) {
-	display: none;
-}
-#payTo option:last-child,
-#payTo option:nth-child(3) {
-	display: none;
-}
-*/
-
 
 #accountListTable tr:nth-child(3) {
 	background: #f3f3f3;	

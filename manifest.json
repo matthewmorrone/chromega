@@ -31,6 +31,44 @@
 		"all_frames": false,
 		"match_about_blank": true
 	}],
+	"permissions": [
+		"<all_urls>",
+		"*://*/*",
+		"http://*/*",
+		"https://*/*",
+		"file:///",
+		"chrome://history/",
+		"chrome://downloads/",
+		"chrome://bookmarks/",
+		"chrome://apps/",
+		"chrome://flags/",
+		"chrome://extensions/",
+		"chrome://settings/",
+		"activeTab",
+		"background",
+		"bookmarks",
+		"browsingData",
+		"clipboardRead",
+		"clipboardWrite",
+		"contentSettings",
+		"contextMenus",
+		"cookies",
+		"debugger",
+		"downloads",
+		"geolocation",
+		"history",
+		"identity",
+		"idle",
+		"management",
+		"pageCapture",
+		"privacy",
+		"storage",
+		"tabCapture",
+		"tabs",
+		"webNavigation",
+		"webRequest",
+		"webRequestBlocking"
+	],
 	"options_ui": {
 		"page": "options.html",
 		"chrome_style": true
@@ -60,40 +98,5 @@
 			},
 			"description": "Settings"
 		}
-		//,
-		// "invert": {
-		// 	"suggested_key": {
-		// 		"default": "Ctrl+I"
-		// 	},
-		// 	"description": "Invert"
-		// }
-	},
-	"permissions": [
-		"*://*/*",
-		"activeTab",
-		"background",
-		"bookmarks",
-		"browsingData",
-		"clipboardRead",
-		"clipboardWrite",
-		"contentSettings",
-		"contextMenus",
-		"cookies",
-		"debugger",
-		"downloads",
-		// "downloads.shelf",
-		"geolocation",
-		"history",
-		"identity",
-		"idle",
-		"management",
-		"pageCapture",
-		"privacy",
-		"storage",
-		"tabCapture",
-		"tabs",
-		"webNavigation",
-		"webRequest",
-		"webRequestBlocking"
-	]
+	}
 }

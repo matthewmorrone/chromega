@@ -4,7 +4,7 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
-
+	console.log("chromega", window.location)
 	if (window.location.host.includes("wikipedia")) {
 		$(function() {
 			$("table").each(function() {
