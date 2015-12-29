@@ -5,7 +5,8 @@ if (chrome.downloads) {
 }
 chrome.storage.sync.get(function(items) {
 	console.log("chromega", window.location)
-	if (window.location.host.includes("wikipedia")) {
+	if (window.location.host.includes("wikipedia") ||
+		window.location.host.includes("freeformatter")) {
 		$(function() {
 			$("table").each(function() {
 				var $table = $(this), $button = $("<button class='export-button' export='0'>Export</button>"), $th, exp
@@ -29,7 +30,8 @@ chrome.storage.sync.get(function(items) {
 				if (exp > 0) {
 					$table.find("th:not(.export), td:not(.export)").remove()
 				}
-				var name = $(this).prevAll("h2").find(".mw-headline").text().replace(" ", "-").toLowerCase() + ".csv"
+				var name = $(this).prevAll("h2").find(".mw-headline").text().replace(/ /g, "-").toLowerCase() || document.title
+				name += ".csv"
 				var content = $.map($table.find("tr"), function(a){return $.map($(a).find("th,td"), function(b) {return $(b).text() || $(b).html()}).join(",")}).join("\n")
 				exportFile(name, content)
 				// $table.replaceWith($clone)
