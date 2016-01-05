@@ -38,6 +38,7 @@ chrome.storage.sync.get(function(items) {
 				$(".export").removeClass("export")
 
 			})
+			// to-do: when column headers have a colspan
 		})
 	}
 
@@ -181,10 +182,10 @@ chrome.storage.sync.get(function(items) {
 		$('.js-site-search-focus').on("focus", function() {
 				$(this).val("user:matthewmorrone1 ");
 			})
-			// 	setTimeout(function() {
-			// 		$('.repo_filterer li:eq(2) a').click()
-			// 		$('.js-repo-filter-tab').eq(1).click()
-			// 		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
+			//	setTimeout(function() {
+			//		$('.repo_filterer li:eq(2) a').click()
+			//		$('.js-repo-filter-tab').eq(1).click()
+			//		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
 			// }, 1000)
 	}
 	if (window.location.host.includes("pinterest") && items.pinterest) {
@@ -200,7 +201,7 @@ chrome.storage.sync.get(function(items) {
 				setTimeout(function() {
 					window.close()
 				}, 5000)
-			}, 500)
+			}, 1000)
 		}
 	}
 });
