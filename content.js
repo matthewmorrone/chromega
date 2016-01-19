@@ -64,11 +64,45 @@ chrome.storage.sync.get(function(items) {
 
 	if (window.location.host.includes("cracked")) {
 		console.clear()
-		var loc, next, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
+		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
 		$(block).remove()
+		if (window.location.pathname.includes("photoplasty")) {
+			loc = window.location.href
+
+			var i = 1, n = $(".paginationNumber:eq(1)").html()
+			while (i++ < n) {
+				nex = loc.slice(0, -1) + "_p"+i+"/"
+				console.log(nex)
+
+				$.ajax({
+					url: nex,
+					async: false,
+					dataType: "html"
+				})
+				.done(function(data) {
+					console.log("Sample of data:", data.slice(0, 100))
+					sec = document.createElement("div")
+					$(".leftColumn").find(".PaginationContent").remove()
+					$(".columnistsModule.genericLeftModule").remove()
+					$(".leftColumn").after(sec)
+					$(sec).addClass(".leftColumn")
+					$(sec).html($(data).find(" .leftColumn"))
+					$(block).remove()
+					$(sec).find("header, footer").remove()
+					$(sec).find("img").each(function() {
+						$(this).attr("src", $(this).attr("data-img"))
+					})
+					$(".dropShadowBottomCurved").removeClass("dropShadowBottomCurved")
+
+				})
+
+
+			}
+
+		}
 		if (window.location.pathname.includes("article") 
-		    || window.location.pathname.includes("blog")
-		    || window.location.pathname.includes("personal-experiences")) {
+		 || window.location.pathname.includes("blog")
+		 || window.location.pathname.includes("personal-experiences")) {
 			loc = window.location.href
 			if (window.location.pathname.includes("blog")) {
 				nex = loc.slice(0, -1) + "_p2/"
