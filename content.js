@@ -68,11 +68,12 @@ chrome.storage.sync.get(function(items) {
 		$(block).remove()
 		if (window.location.pathname.includes("photoplasty")) {
 			loc = window.location.href
-
 			var i = 1, n = $(".paginationNumber:eq(1)").html()
+			console.log(loc, i, n)
+
 			while (i++ < n) {
 				nex = loc.slice(0, -1) + "_p"+i+"/"
-				console.log(nex)
+				console.log(nex, i, n)
 
 				$.ajax({
 					url: nex,
@@ -80,25 +81,22 @@ chrome.storage.sync.get(function(items) {
 					dataType: "html"
 				})
 				.done(function(data) {
-					console.log("Sample of data:", data.slice(0, 100))
 					sec = document.createElement("div")
 					$(".leftColumn").find(".PaginationContent").remove()
 					$(".columnistsModule.genericLeftModule").remove()
 					$(".leftColumn").after(sec)
-					$(sec).addClass(".leftColumn")
-					$(sec).html($(data).find(" .leftColumn"))
+					$(sec).addClass("leftColumn")
+					$(sec).html($(data).find(".leftColumn")[0].innerHTML)	
+					$("#safePlace").removeAttr("id")
+					$("div").filter(function() {return $(this).html() === ""}).remove()
 					$(block).remove()
 					$(sec).find("header, footer").remove()
 					$(sec).find("img").each(function() {
 						$(this).attr("src", $(this).attr("data-img"))
 					})
 					$(".dropShadowBottomCurved").removeClass("dropShadowBottomCurved")
-
 				})
-
-
 			}
-
 		}
 		if (window.location.pathname.includes("article") 
 		 || window.location.pathname.includes("blog")
@@ -108,7 +106,6 @@ chrome.storage.sync.get(function(items) {
 				nex = loc.slice(0, -1) + "_p2/"
 			}
 			else {
-				
 				if (loc.split("_").last() === "p2.html") {
 					nex = loc.replace("_p2.html", ".html")
 					window.location.href = nex
