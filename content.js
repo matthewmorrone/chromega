@@ -4,7 +4,13 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
-	console.log("chromega", window.location)
+
+	if (Object.keys({items}).length === 0) {
+		init()
+	}
+
+
+	console.log("chromega", window.location, items)
 	if (window.location.host.includes("wikipedia") ||
 		window.location.host.includes("freeformatter")) {
 		$(function() {
@@ -207,20 +213,32 @@ chrome.storage.sync.get(function(items) {
 		}
 		// window.requestAnimationFrame(removeImages)
 	}
+	
 	if (window.location.host === "gist.github.com" && items.githubGist) {
-		$('.js-quicksearch-field').on("focus", function() {
-			$(this).val("user:matthewmorrone1 ");
+		$(document).on("focus", ".js-site-search-focus", function() {
+			$(this).val("user:matthewmorrone1 ")
+			$(this).one("keydown", function(e) {
+				if (e.which === 8) {
+					$(this).val("")
+				}
+			})
 		})
 	}
+	
 	if (window.location.host.includes("github") && items.github) {
-		$('.js-site-search-focus').on("focus", function() {
-				$(this).val("user:matthewmorrone1 ");
+		$(document).on("focus", ".js-site-search-focus", function() {
+			$(this).val("user:matthewmorrone1 ")
+			$(this).one("keydown", function(e) {
+				if (e.which === 8) {
+					$(this).val("")
+				}
 			})
-			//	setTimeout(function() {
-			//		$('.repo_filterer li:eq(2) a').click()
-			//		$('.js-repo-filter-tab').eq(1).click()
-			//		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
-			// }, 1000)
+		})
+		//	setTimeout(function() {
+		//		$('.repo_filterer li:eq(2) a').click()
+		//		$('.js-repo-filter-tab').eq(1).click()
+		//		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
+		// }, 1000)
 	}
 	if (window.location.host.includes("pinterest") && items.pinterest) {
 		$(document).on("mouseover", ".item.selected", function(e) {

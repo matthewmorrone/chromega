@@ -20,6 +20,19 @@ function save() {
 	});
 }
 
+function init() {
+	console.log("init");
+	chrome.storage.sync.set({
+		'google' : true,
+		'googleInbox' : true,
+		'githubGist' : true,
+		'github' : true,
+		'pinterest' : true
+	}, function() {
+		return true
+	});	
+}
+
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore() {
@@ -39,3 +52,6 @@ function restore() {
 }
 document.addEventListener('DOMContentLoaded', restore);
 document.getElementById('save').addEventListener('click', save);
+
+
+
