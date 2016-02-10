@@ -4,15 +4,12 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
-
 	if (Object.keys({items}).length === 0) {
 		init()
 	}
-
-
-	console.log("chromega", window.location, items)
-	if (window.location.host.includes("wikipedia") ||
-		window.location.host.includes("freeformatter")) {
+	if (items.debug) {console.log("chromega", window.location, items)}
+	if ((window.location.host.includes("wikipedia") ||
+		window.location.host.includes("freeformatter")) && items.wikipedia) {
 		$(function() {
 			$("table").each(function() {
 				var $table = $(this), $button = $("<button class='export-button' export='0'>Export</button>"), $th, exp
@@ -68,18 +65,18 @@ chrome.storage.sync.get(function(items) {
 		exportFile("icons.csv", $.map($("#cache .entry"), function(a) {return $(a).find(".name").text() +", "+ $(a).find(".tags").text()}))
 	})
 
-	if (window.location.host.includes("cracked")) {
+	if (window.location.host.includes("cracked") && items.cracked) {
 		console.clear()
 		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
 		$(block).remove()
 		if (window.location.pathname.includes("photoplasty")) {
 			loc = window.location.href
 			var i = 1, n = $(".paginationNumber:eq(1)").html()
-			console.log(loc, i, n)
+			if (items.debug) {console.log(loc, i, n)}
 
 			while (i++ < n) {
 				nex = loc.slice(0, -1) + "_p"+i+"/"
-				console.log(nex, i, n)
+				if (items.debug) {console.log(nex, i, n)}
 
 				$.ajax({
 					url: nex,
@@ -92,7 +89,7 @@ chrome.storage.sync.get(function(items) {
 					$(".columnistsModule.genericLeftModule").remove()
 					$(".leftColumn").after(sec)
 					$(sec).addClass("leftColumn")
-					$(sec).html($(data).find(".leftColumn")[0].innerHTML)	
+					$(sec).html($(data).find(".leftColumn")[0].innerHTML)
 					$("#safePlace").removeAttr("id")
 					$("div").filter(function() {return $(this).html() === ""}).remove()
 					$(block).remove()
@@ -104,7 +101,7 @@ chrome.storage.sync.get(function(items) {
 				})
 			}
 		}
-		if (window.location.pathname.includes("article") 
+		if (window.location.pathname.includes("article")
 		 || window.location.pathname.includes("blog")
 		 || window.location.pathname.includes("personal-experiences")) {
 			loc = window.location.href
@@ -118,7 +115,7 @@ chrome.storage.sync.get(function(items) {
 				}
 				nex = loc.split(".")
 				nex.pop()
-				nex = nex.join(".") + "_p2.html"				
+				nex = nex.join(".") + "_p2.html"
 			}
 			sec = document.createElement("div")
 			$(".leftColumn").find(".PaginationContent").remove()
@@ -136,7 +133,7 @@ chrome.storage.sync.get(function(items) {
 		}
 		$(block).remove()
 	}
-	if (window.location.host.includes("postmarkcu")) {
+	if (window.location.host.includes("postmarkcu") && items.postmark) {
 		if (window.location.href.includes("home")) {
 			$("[name='userid']").val("matthewmorrone1")
 			$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
@@ -152,7 +149,7 @@ chrome.storage.sync.get(function(items) {
 		})
 
 	}
-	if (window.location.host.includes("peopleclick")) {
+	if (window.location.host.includes("peopleclick") && items.peopleclick) {
 
 		$(function() {
 			setTimeout(function() {
@@ -167,7 +164,7 @@ chrome.storage.sync.get(function(items) {
 			}, 1000)
 		})
 	}
-	if (window.location.host === "www.google.com"/* && items.google*/) {
+	if (window.location.host === "www.google.com" && items.google) {
 		var a, href, datahref, text
 		$(".r").each(function() {
 			$(this).find("a").each(function() {
@@ -210,7 +207,7 @@ chrome.storage.sync.get(function(items) {
 		}
 		// window.requestAnimationFrame(removeImages)
 	}
-	
+
 	if (window.location.host === "gist.github.com" && items.githubGist) {
 		$(document).on("focus", ".js-site-search-focus", function() {
 			$(this).val("user:matthewmorrone1 ")
@@ -221,7 +218,7 @@ chrome.storage.sync.get(function(items) {
 			})
 		})
 	}
-	
+
 	if (window.location.host.includes("github") && items.github) {
 		$(document).on("focus", ".js-site-search-focus", function() {
 			$(this).val("user:matthewmorrone1 ")
@@ -244,7 +241,14 @@ chrome.storage.sync.get(function(items) {
 			}
 		})
 		if (window.location.pathname === "/pin/create/extension/") {
+		// 	if (items.debug) {console.log("here")}
 			setTimeout(function() {
+				// chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
+				//     var url = tabs[0].url;
+				//     alert(tabs[0].id)
+				// 	chrome.tabs.executeScript(tabs[0].id, {code: 'window.top.focus()'})
+				// })
+				// chrome.tabs.executeScript(null, {code: 'window.top.focus()'})
 				var $li = $("li").eq(0)
 				$li.find("button").show().click()
 				setTimeout(function() {

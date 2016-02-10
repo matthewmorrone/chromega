@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Chromega Options</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <style>
 * {
 	margin: 0;
@@ -9,20 +10,44 @@
 	white-space: nowrap;
 	list-style-type: none;
 }
+.icon {
+	vertical-align: bottom;
+}
+i {
+	width: 16px;
+}
+input[type='checkbox'], button {
+	display: none;
+}
+.enabled {
+	color: black;
+}
+.disabled {
+	color: lightgray;
+}
 </style>
+
 </head>
 <body>
 	<ul>
 		<li><h3>Chromega</h3></li>
-		<li><label><input type="checkbox" id="google"> google</label></li>
-		<li><label><input type="checkbox" id="inbox-google"> inbox.google</label></li>
-		<li><label><input type="checkbox" id="gist-github"> gist.github</label></li>
-		<li><label><input type="checkbox" id="github"> github</label></li>
-		<li><label><input type="checkbox" id="pinterest"> pinterest</label></li>
+		<li><label><i class="fa fa-bolt"></i>		<input type="checkbox" url="cracked"			id="cracked">&nbsp;cracked</label></li>
+		<li><label><i class="fa fa-gittip"></i>		<input type="checkbox" url="gist.github"		id="gist">&nbsp;gist</label></li>
+		<li><label><i class="fa fa-github"></i>		<input type="checkbox" url="github"				id="github">&nbsp;github</label></li>
+		<li><label><i class="fa fa-google"></i>		<input type="checkbox" url="google"				id="google">&nbsp;google</label></li>
+		<li><label><i class="fa fa-envelope-o"></i>	<input type="checkbox" url="inbox.google"		id="inbox">&nbsp;inbox</label></li>
+		<li><label><i class="fa fa-certificate"></i><input type="checkbox" url="vms.peopleclick"	id="peopleclick">&nbsp;peopleclick</label></li>
+		<li><label><i class="fa fa-pinterest"></i>	<input type="checkbox" url="pinterest"			id="pinterest">&nbsp;pinterest</label></li>
+		<li><label><i class="fa fa-euro"></i>		<input type="checkbox" url="postmarkcu"			id="postmark">&nbsp;postmark</label></li>
+		<li><label><i class="fa fa-wikipedia-w"></i><input type="checkbox" url="wikipedia"			id="wikipedia">&nbsp;wikipedia</label></li>
+		<li><label><i class="fa fa-cog"></i>		<input type="checkbox" 							id="debug">&nbsp;debug</label></li>
 		<li><div id="status"></div></li>
-		<li><button id="save">Save</button></li>
+		<li><button id="save"><i class="fa fa-bolt"></i>&nbsp;Save</button></li>
 	</ul>
+	<script src='jquery.js'></script>
+	<script src='starch.js'></script>
 	<script src="options.js"></script>
+	<!-- <script src='icons.js'></script> -->
 </body>
 
 </html>
