@@ -5,16 +5,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <style>
 * {
-	margin: 0;
-	padding: 0;
-	white-space: nowrap;
+/*	margin: 0;
+	padding: 0;*/
+	/*white-space: nowrap;*/
 	list-style-type: none;
-}
-.icon {
-	vertical-align: bottom;
-}
-i {
-	width: 16px;
 }
 input[type='checkbox'], button {
 	display: none;
@@ -25,29 +19,72 @@ input[type='checkbox'], button {
 .disabled {
 	color: lightgray;
 }
+ul {
+	/*display: flex;*/
+	/*width: 100%;*/
+	/*flex-flow: column nowrap;*/
+	/*justify-content: center;*/
+	/*align-content: center;*/
+	/*align-items: stretch;*/
+}
+.fa-ul {
+	/*margin: auto !important;*/
+	/*padding: auto !important;*/
+}
+label {
+	/*display: flex;*/
+	/*flex-flow: row nowrap;*/
+	/*justify-content: space-between;*/
+	/*align-content: space-between;*/
+	/*align-items: flex-end;*/
+	/*align-items:         flex-start;*/
+	/*line-height: 30px;*/
+}
+i {
+	/*text-align: center;*/
+	/*width: 30px;*/
+}
+i, label span {
+	/*border: 1px solid black;*/
+	/*vertical-align: middle;*/
+	/*font-size: 200% !important;*/
+}
+.rating {
+	unicode-bidi: bidi-override;
+	direction: rtl;
+}
+.rating > span {
+	display: inline-block;
+	position: relative;
+	width: 1.1em;
+}
+.rating > span:hover:before,
+.rating > span:hover ~ span:before {
+	 content: "\2605";
+	 position: absolute;
+}
 </style>
 
 </head>
 <body>
-	<ul>
+	<ul class='fa-ul'>
 		<li><h3>Chromega</h3></li>
-		<li><label><i class="fa fa-bolt"></i>		<input type="checkbox" url="cracked"			id="cracked">&nbsp;cracked</label></li>
-		<li><label><i class="fa fa-gittip"></i>		<input type="checkbox" url="gist.github"		id="gist">&nbsp;gist</label></li>
-		<li><label><i class="fa fa-github"></i>		<input type="checkbox" url="github"				id="github">&nbsp;github</label></li>
-		<li><label><i class="fa fa-google"></i>		<input type="checkbox" url="google"				id="google">&nbsp;google</label></li>
-		<li><label><i class="fa fa-envelope-o"></i>	<input type="checkbox" url="inbox.google"		id="inbox">&nbsp;inbox</label></li>
-		<li><label><i class="fa fa-certificate"></i><input type="checkbox" url="vms.peopleclick"	id="peopleclick">&nbsp;peopleclick</label></li>
-		<li><label><i class="fa fa-pinterest"></i>	<input type="checkbox" url="pinterest"			id="pinterest">&nbsp;pinterest</label></li>
-		<li><label><i class="fa fa-euro"></i>		<input type="checkbox" url="postmarkcu"			id="postmark">&nbsp;postmark</label></li>
-		<li><label><i class="fa fa-wikipedia-w"></i><input type="checkbox" url="wikipedia"			id="wikipedia">&nbsp;wikipedia</label></li>
-		<li><label><i class="fa fa-cog"></i>		<input type="checkbox" 							id="debug">&nbsp;debug</label></li>
-		<li><div id="status"></div></li>
-		<li><button id="save"><i class="fa fa-bolt"></i>&nbsp;Save</button></li>
+		<li><label><i class="fa fa-li fa-bolt"></i><input type="checkbox" url="cracked" id="cracked"><span>cracked</span></label></li>
+		<li><label><i class="fa fa-li fa-gittip"></i><input type="checkbox" url="gist.github" id="gist"><span>gist</span></label></li>
+		<li><label><i class="fa fa-li fa-github"></i><input type="checkbox" url="github" id="github"><span>github</span></label></li>
+		<li><label><i class="fa fa-li fa-google"></i><input type="checkbox" url="google" id="google"><span>google</span></label></li>
+		<li><label><i class="fa fa-li fa-envelope-o"></i><input type="checkbox" url="inbox.google" id="inbox"><span>inbox</span></label></li>
+		<li><label><i class="fa fa-li fa-certificate"></i><input type="checkbox" url="vms.peopleclick" id="peopleclick"><span>peopleclick</span></label></li>
+		<li><label><i class="fa fa-li fa-pinterest"></i><input type="checkbox" url="pinterest" id="pinterest"><span>pinterest</span></label></li>
+		<li><label><i class="fa fa-li fa-euro"></i><input type="checkbox" url="postmarkcu" id="postmark"><span>postmark</span></label></li>
+		<li><label><i class="fa fa-li fa-wikipedia-w"></i><input type="checkbox" url="wikipedia" id="wikipedia"><span>wikipedia</span></label></li>
+		<li><label><i class="fa fa-li fa-cog"></i><input type="checkbox" id="debug"><span>debug</span></label></li>
+		<li><span id="status"></span></li>
+		<li><button id="save"><i class="fa fa-li fa-bolt"></i><span>Save</span></button></li>
 	</ul>
+	<!-- <div class="rating"><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div>  -->
 	<script src='jquery.js'></script>
-	<script src='starch.js'></script>
 	<script src="options.js"></script>
-	<!-- <script src='icons.js'></script> -->
 </body>
 
 </html>
