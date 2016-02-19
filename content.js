@@ -4,6 +4,60 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
+
+(function($) {
+	$.fn.extend({
+		'tablesearcher': function(s) {
+			s = $.extend({}, $.fn.tablesearcher.defaults, s)
+			return this.each(function(i) {
+				var searchTimeout
+				var $table = $(this)
+				if (s.input == null) {
+					throw new Error('Must provide an input element to bind to')
+				}
+				s.input.bind('keyup', function() {
+					if (searchTimeout) {
+						clearTimeout(searchTimeout)
+					}
+					searchTimeout = setTimeout(initSearch, 300)
+				})
+				var lastQ = ''
+				function initSearch() {
+					var q = s.input.val().toLowerCase()
+					if (q == lastQ) return
+					if (q == '') {
+						$table.find('tbody tr').css('display', '')
+					} else {
+						//var tst = new RegExp(q, 'i')
+						var i = 0
+						$table.find('tbody tr').each(function() {
+							var $tr = $(this)
+							var searchStr = $tr.text().toLowerCase()
+								//var isMatch = tst.test(searchStr)
+							var isMatch = searchStr.indexOf(q) > -1
+							$tr.css('display', isMatch ? '' : 'none')
+						})
+					}
+					lastQ = q
+					searchTimeout = undefined
+				}
+			})
+		}
+	})
+	$.fn.tablesearcher.defaults = {
+		'input': null
+	}
+})(jQuery)
+
+	function sortHelper(c, d) {
+		return function(a, b) {
+				if (c(a) > c(b))	return (d === "d" ?  1 : -1)
+			else if (c(a) < c(b))	return (d === "d" ? -1 :  1)
+			else					return 0
+		}
+	}
+
+
 	if (Object.keys({items}).length === 0) {
 		init()
 	}
@@ -12,19 +66,44 @@ chrome.storage.sync.get(function(items) {
 		window.location.host.includes("freeformatter")) && items.wikipedia) {
 		$(function() {
 			$("table").each(function() {
-				var $table = $(this), $button = $("<button class='export-button' export='0'>Export</button>"), $th, exp
-				$table.before($button)
-				$(this).find("th").dblclick(function(e) {
-					exp = parseInt($button.attr("export"), 10)
-					$button.attr("export", exp+1)
-					e.preventDefault()
-					e.stopPropagation()
+				if ($(this).hasClass("processed")) {return}
+				var $table = $(this),
+					$button = $("<button class='export-button' export='0'>Export</button>"),
+					$in = $('<input type="text" class="search-input" />'),
+					$th, exp
+				// $table.before($button)
+				// $table.before($in)
+				// $table.tablesearcher({'input' : $in})
+				$table.addClass("processed")
+
+				// $table.find("th").click(function(e) {
+				// 	exp = parseInt($button.attr("export"), 10)
+				// 	$button.attr("export", exp+1)
+				// 	e.preventDefault()
+				// 	e.stopPropagation()
+				// 	$th = $(this)
+				// 	$th.toggleClass("export")
+				// 	$table.find("tr:gt(0)").each(function() {
+				// 		$(this).find("th, td").eq($th.index()).toggleClass("export")
+				// 	})
+				// })
+				var dir = "d"
+				$table.find("th").click(function(e) {
 					$th = $(this)
-					$th.toggleClass("export")
-					$table.find("tr").each(function() {
-						$(this).find("td").eq($th.index()).toggleClass("export")
-					})
+					dir = (dir === "d" ? "a" : "d")
+					$table.find("tr:gt(0)").sort(sortHelper(function(c) {
+						var res = $(c).find("th, td").eq($th.index()).text()
+						if (!isNaN(res)) {
+							return parseInt(res, 10)
+						}
+						return res
+					}, dir)).appendTo($table);
+
 				})
+
+				// function(a, b) {
+				// 	return $(a).find("th, td").eq($th.index()).text() - $(b).find("th, td").eq($th.index()).text()
+				// }
 			})
 			$(document).on("click", ".export-button", function() {
 				$table = $(this).next("table")
@@ -37,7 +116,6 @@ chrome.storage.sync.get(function(items) {
 				name += ".csv"
 				var content = $.map($table.find("tr"), function(a){return $.map($(a).find("th,td"), function(b) {return $(b).text() || $(b).html()}).join(",")}).join("\n")
 				exportFile(name, content)
-				// $table.replaceWith($clone)
 				$(".export").removeClass("export")
 
 			})
@@ -50,8 +128,6 @@ chrome.storage.sync.get(function(items) {
 	}
 
 	function exportFile(name, content) {
-		// var encodedUri = encodeURI(content);
-		// content = content.join("%0A")
 		content = encodeURI(content)
 		var a = document.createElement("a");
 		a.setAttribute("target", '_blank');
@@ -102,8 +178,8 @@ chrome.storage.sync.get(function(items) {
 			}
 		}
 		if (window.location.pathname.includes("article")
-		 || window.location.pathname.includes("blog")
-		 || window.location.pathname.includes("personal-experiences")) {
+		|| window.location.pathname.includes("blog")
+		|| window.location.pathname.includes("personal-experiences")) {
 			loc = window.location.href
 			if (window.location.pathname.includes("blog")) {
 				nex = loc.slice(0, -1) + "_p2/"
@@ -139,6 +215,7 @@ chrome.storage.sync.get(function(items) {
 			$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
 		}
 	}
+
 	if (window.location.host.includes("global1.onlinebank")) {
 		$("#accountListTable tr:last-child").remove()
 		$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
@@ -150,20 +227,46 @@ chrome.storage.sync.get(function(items) {
 
 	}
 	if (window.location.host.includes("peopleclick") && items.peopleclick) {
-
-		$(function() {
+		$(document).on("click", "a#ext-gen443", function(e) {
+			var inc = 500
 			setTimeout(function() {
-				$(".x-table-layout input[type='text']").each(function(i, o) {
-					if (i < 1 || i > 5) {
-						$(this).focus().val("0").blur();
-						return
-					}
-					$(this).focus().val("7.5").blur()
-				})
-				$("#BR1_btnSubmit_btn").focus()
-			}, 1000)
+				$('.x-tree-node-anchor').last().parents(".x-tree-node-el").addClass("x-tree-selected").click()
+				$('#ContentPH_cbBillRules').click()
+				setTimeout(function() {
+					$('#ext-gen660').addClass("x-combo-selected").click()
+					setTimeout(function() {
+						$('#ContentPH_ContentPH_brWindow_btn1_btn').click()
+						$(document).one("mousedown", "input[type='text']", function(e) {
+							$(".x-table-layout").last().find("tr").each(function(i, o) {
+								$(this).find("input[type='text']").each(function(j, p) {
+									console.log(i, j)
+									if (i === 1 && j > 0 && j < 6) {
+										$(this).focus()
+										$(this).val("8:30 am")
+										$(this).blur()
+									}
+									if (i === 3 && j > 0 && j < 6) {
+										$(this).focus()
+										$(this).val("5:00 pm")
+										$(this).blur()
+									}
+									if (i === 5 && j > 0 && j < 6) {
+										$(this).focus()
+										$(this).val("1")
+										$(this).blur()
+									}
+								})
+							})
+						})
+						$("input[type='text']").eq(0).click()
+					}, inc)
+				}, inc)
+			}, inc)
+
 		})
+
 	}
+
 	if (window.location.host === "www.google.com" && items.google) {
 		var a, href, datahref, text
 		$(".r").each(function() {
@@ -198,14 +301,13 @@ chrome.storage.sync.get(function(items) {
 	}
 	if (window.location.host === "inbox.google.com" && items.googleInbox) {
 		$(".jS.kl").remove()
-
 		function removeImages() {
 			setTimeout(function() {
 				$(".jS.kl").remove()
 				window.requestAnimationFrame(removeImages)
-			}, 1000)
+			}, inc)
 		}
-		// window.requestAnimationFrame(removeImages)
+		window.requestAnimationFrame(removeImages)
 	}
 
 	if (window.location.host === "gist.github.com" && items.githubGist) {
@@ -228,24 +330,21 @@ chrome.storage.sync.get(function(items) {
 				}
 			})
 		})
-		//	setTimeout(function() {
-		//		$('.repo_filterer li:eq(2) a').click()
-		//		$('.js-repo-filter-tab').eq(1).click()
-		//		$("#js-pjax-container > div > div > div.column.three-fourths > div.tab-content.js-repo-filter > div > div > ul > li:nth-child(3) > a").click()
-		// }, 1000)
+		if (window.location.search.includes("repositories")) {
+			document.elementFromPoint(1308, 138).click()
+		}
 	}
 	if (window.location.host.includes("pinterest") && items.pinterest) {
-		$(document).on("mouseover", ".item.selected", function(e) {
+		$(document).on("load", ".item.selected", function(e) {
 			if ($(".pinnedToBoardWarning").length === 0) {
 				$(e.target).click()
 			}
 		})
 		if (window.location.pathname === "/pin/create/extension/") {
-		// 	if (items.debug) {console.log("here")}
 			setTimeout(function() {
 				// chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-				//     var url = tabs[0].url;
-				//     alert(tabs[0].id)
+				//	var url = tabs[0].url;
+				//	alert(tabs[0].id)
 				// 	chrome.tabs.executeScript(tabs[0].id, {code: 'window.top.focus()'})
 				// })
 				// chrome.tabs.executeScript(null, {code: 'window.top.focus()'})
@@ -254,7 +353,7 @@ chrome.storage.sync.get(function(items) {
 				setTimeout(function() {
 					window.close()
 				}, 5000)
-			}, 1000)
+			}, inc)
 		}
 	}
 });
