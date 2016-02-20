@@ -32,3 +32,7 @@ center iframe {
 	margin-top: 0px !important;
 }
 
+figure, #preview {
+	background-color: black !important;
+	color: white !important;
+}

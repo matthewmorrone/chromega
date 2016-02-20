@@ -252,8 +252,10 @@ chrome.storage.sync.get(function(items) {
 				var $li = $("li").eq(0)
 				$li.find("button").show().click()
 				setTimeout(function() {
-					window.close()
-				}, 5000)
+					// window.close()
+					$("#cancelButton").click()
+
+				}, 3000)
 			}, 1000)
 		}
 	}
