@@ -25,7 +25,7 @@
 			"http://*/*",
 			"https://*/*"
 		],
-		"js": ["jquery.js", "util.js", "content.js"],
+		"js": ["jquery.js", "jquery.tablesearcher.js", "util.js", "content.js"],
 		"css": ["content.css"],
 		"run_at": "document_end",
 		"all_frames": false,
