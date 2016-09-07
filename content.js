@@ -4,9 +4,6 @@ if (chrome.downloads) {
 	}
 }
 chrome.storage.sync.get(function(items) {
-
-
-
 	function sortHelper(c, d) {
 		return function(a, b) {
 				 if (c(a) > c(b))	return (d === "d" ?  1 : -1)
@@ -14,8 +11,6 @@ chrome.storage.sync.get(function(items) {
 			else					return 0
 		}
 	}
-
-
 	if (Object.keys({items}).length === 0) {
 		init()
 	}
@@ -27,41 +22,21 @@ chrome.storage.sync.get(function(items) {
 				if ($(this).hasClass("processed")) {return}
 				var $table = $(this),
 					$button = $("<button class='export-button' export='0'>Export</button>"),
-					$in = $('<input type="text" class="search-input" />'),
 					$th, exp
-				// $table.before($button)
-				// $table.before($in)
-				// $table.tablesearcher({'input' : $in})
+				$table.before($button)
 				$table.addClass("processed")
 
-				// $table.find("th").click(function(e) {
-				// 	exp = parseInt($button.attr("export"), 10)
-				// 	$button.attr("export", exp+1)
-				// 	e.preventDefault()
-				// 	e.stopPropagation()
-				// 	$th = $(this)
-				// 	$th.toggleClass("export")
-				// 	$table.find("tr:gt(0)").each(function() {
-				// 		$(this).find("th, td").eq($th.index()).toggleClass("export")
-				// 	})
-				// })
-				var dir = "d"
 				$table.find("th").click(function(e) {
+					exp = parseInt($button.attr("export"), 10)
+					$button.attr("export", exp+1)
+					e.preventDefault()
+					e.stopPropagation()
 					$th = $(this)
-					dir = (dir === "d" ? "a" : "d")
-					$table.find("tr:gt(0)").sort(sortHelper(function(c) {
-						var res = $(c).find("th, td").eq($th.index()).text()
-						if (!isNaN(res)) {
-							return parseInt(res, 10)
-						}
-						return res
-					}, dir)).appendTo($table);
-
+					$th.toggleClass("export")
+					$table.find("tr:gt(0)").each(function() {
+						$(this).find("th, td").eq($th.index()).toggleClass("export")
+					})
 				})
-
-				// function(a, b) {
-				// 	return $(a).find("th, td").eq($th.index()).text() - $(b).find("th, td").eq($th.index()).text()
-				// }
 			})
 			$(document).on("click", ".export-button", function() {
 				$table = $(this).next("table")
@@ -72,32 +47,18 @@ chrome.storage.sync.get(function(items) {
 				}
 				var name = $(this).prevAll("h2").find(".mw-headline").text().replace(/ /g, "-").toLowerCase() || document.title
 				name += ".csv"
-				var content = $.map($table.find("tr"), function(a){return $.map($(a).find("th,td"), function(b) {return $(b).text() || $(b).html()}).join(",")}).join("\n")
+				var content = $.map($table.find("tr"), function(a){
+					return $.map($(a).find("th,td"), function(b) {
+						log($(b).text(), $(b).html())
+						return $(b).text() || $(b).html()
+					}).join(",")
+				}).join("\n")
 				exportFile(name, content)
 				$(".export").removeClass("export")
-
 			})
 			// to-do: when column headers have a colspan
 		})
 	}
-
-	function clone(i) {
-		return JSON.parse(JSON.stringify(i))
-	}
-
-	function exportFile(name, content) {
-		content = encodeURI(content)
-		var a = document.createElement("a");
-		a.setAttribute("target", '_blank');
-		a.setAttribute("href", 'data:attachment/csv,' + content);
-		a.setAttribute("download", name);
-		a.click();
-		document.body.appendChild(a);
-	}
-
-	$("#export").click(function() {
-		exportFile("icons.csv", $.map($("#cache .entry"), function(a) {return $(a).find(".name").text() +", "+ $(a).find(".tags").text()}))
-	})
 
 	if (window.location.host.includes("cracked") && items.cracked) {
 		console.clear()
@@ -107,11 +68,9 @@ chrome.storage.sync.get(function(items) {
 			loc = window.location.href
 			var i = 1, n = $(".paginationNumber:eq(1)").html()
 			if (items.debug) {console.log(loc, i, n)}
-
 			while (i++ < n) {
 				nex = loc.slice(0, -1) + "_p"+i+"/"
 				if (items.debug) {console.log(nex, i, n)}
-
 				$.ajax({
 					url: nex,
 					async: false,
@@ -173,8 +132,7 @@ chrome.storage.sync.get(function(items) {
 			$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
 		}
 	}
-
-	if (window.location.host.includes("global1.onlinebank")) {
+	if (window.location.host.includes("global1.onlinebank") && items.postmark) {
 		$("#accountListTable tr:last-child").remove()
 		$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
 		$("#payTo option:last-child").html("Savings")
@@ -182,49 +140,14 @@ chrome.storage.sync.get(function(items) {
 			$(this).html($(this).text().replace(/\*\d\-\d+/g, ""))
 			$(this).html($(this).text().replace(/ 10 /, ""))
 		})
-
-	}
-	if (window.location.host.includes("peopleclick") && items.peopleclick) {
-		$(document).on("click", "a#ext-gen443", function(e) {
-			var inc = 500
-			setTimeout(function() {
-				$('.x-tree-node-anchor').last().parents(".x-tree-node-el").addClass("x-tree-selected").click()
-				$('#ContentPH_cbBillRules').click()
-				setTimeout(function() {
-					$('#ext-gen660').addClass("x-combo-selected").click()
-					setTimeout(function() {
-						$('#ContentPH_ContentPH_brWindow_btn1_btn').click()
-						$(document).one("mousedown", "input[type='text']", function(e) {
-							$(".x-table-layout").last().find("tr").each(function(i, o) {
-								$(this).find("input[type='text']").each(function(j, p) {
-									console.log(i, j)
-									if (i === 1 && j > 0 && j < 6) {
-										$(this).focus()
-										$(this).val("8:30 am")
-										$(this).blur()
-									}
-									if (i === 3 && j > 0 && j < 6) {
-										$(this).focus()
-										$(this).val("5:00 pm")
-										$(this).blur()
-									}
-									if (i === 5 && j > 0 && j < 6) {
-										$(this).focus()
-										$(this).val("1")
-										$(this).blur()
-									}
-								})
-							})
-						})
-						$("input[type='text']").eq(0).click()
-					}, inc)
-				}, inc)
-			}, inc)
-
-		})
-
 	}
 
+	if (window.location.host === "www.facebook.com") {
+		setTimeout(function() {
+			document.getElementById("u_ps_0_4_2").click()
+		}, 1000)
+	}
+	
 	if (window.location.host === "www.google.com" && items.google) {
 		var a, href, datahref, text
 		$(".r").each(function() {
@@ -268,7 +191,7 @@ chrome.storage.sync.get(function(items) {
 		window.requestAnimationFrame(removeImages)
 	}
 
-	if (window.location.host === "gist.github.com" && items.githubGist) {
+	if ((window.location.host === "gist.github.com" || window.location.host.includes("github")) && items.github/*Gist*/) {
 		$(document).on("focus", ".js-site-search-focus", function() {
 			$(this).val("user:matthewmorrone1 ")
 			$(this).one("keydown", function(e) {
@@ -277,43 +200,9 @@ chrome.storage.sync.get(function(items) {
 				}
 			})
 		})
+		// if (window.location.search.includes("repositories")) {
+		// 	document.elementFromPoint(1308, 138).click()
+		// }
 	}
+})
 
-	if (window.location.host.includes("github") && items.github) {
-		$(document).on("focus", ".js-site-search-focus", function() {
-			$(this).val("user:matthewmorrone1 ")
-			$(this).one("keydown", function(e) {
-				if (e.which === 8) {
-					$(this).val("")
-				}
-			})
-		})
-		if (window.location.search.includes("repositories")) {
-			document.elementFromPoint(1308, 138).click()
-		}
-	}
-	if (window.location.host.includes("pinterest") && items.pinterest) {
-		$(document).on("load", ".item.selected", function(e) {
-			if ($(".pinnedToBoardWarning").length === 0) {
-				$(e.target).click()
-			}
-		})
-		if (window.location.pathname === "/pin/create/extension/") {
-			setTimeout(function() {
-				// chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
-				//	var url = tabs[0].url;
-				//	alert(tabs[0].id)
-				// 	chrome.tabs.executeScript(tabs[0].id, {code: 'window.top.focus()'})
-				// })
-				// chrome.tabs.executeScript(null, {code: 'window.top.focus()'})
-				var $li = $("li").eq(0)
-				$li.find("button").show().click()
-				setTimeout(function() {
-					window.close()
-				}, 5000)
-			}, inc)
-		}
-	}
-});
-// github repo filter
-// https://gist.github.com/matthewmorrone1/60356a70f10619ced0bd

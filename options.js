@@ -1,24 +1,23 @@
 
 var options = {
-"cracked": true,
-"debug": true,
-"gist": true,
-"github": true,
-"google": true,
-"inbox": true,
-"peopleclick": true,
-"pinterest": true,
-"postmark": true,
-"wikipedia": true}
+	"cracked": true,
+	"debug": true,
+	"gist": true,
+	"github": true,
+	"google": true,
+	"inbox": true,
+	"peopleclick": true,
+	"pinterest": true,
+	"postmark": true,
+	"wikipedia": true
+}
 
 // Saves options to chrome.storage
 function save() {
 	for (var k in options) {
 		options[k] = document.getElementById(k).checked
 	}
-	chrome.storage.sync.set(options, function() {
-
-	})
+	chrome.storage.sync.set(options, function() {})
 }
 
 function init() {

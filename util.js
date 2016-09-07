@@ -12,9 +12,9 @@ if (!jQuery) {
 	document.getElementsByTagName('head')[0].appendChild(jq);
 }
 if (!Array.prototype.last){
-    Array.prototype.last = function(){
-        return this[this.length - 1];
-    };
+	Array.prototype.last = function(){
+		return this[this.length - 1];
+	};
 };
 Object.defineProperty(Object.prototype, "define", {
 	configurable: true,
@@ -54,3 +54,60 @@ Object.prototype.define("map", function(fn, ctx) {
 	});
 	return result;
 });
+function exportFile(name, content) {
+	log(content)
+	content = encodeURI(content)
+	var a = document.createElement("a");
+	a.setAttribute("target", '_blank');
+	a.setAttribute("href", 'data:attachment/csv,' + content);
+	a.setAttribute("download", name);
+	a.click();
+	document.body.appendChild(a);
+}
+
+function getBase64Image(img) {
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+    var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data
+
+
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    // var dataURL = canvas.toDataURL("image/png");
+
+    // return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    return imgData
+}
+
+function getImageType(arrayBuffer){
+	var type = "";
+	var dv = new DataView(arrayBuffer,0,5);
+	var nume1 = dv.getUint8(0,true);
+	var nume2 = dv.getUint8(1,true);
+	var hex = nume1.toString(16) + nume2.toString(16) ;
+ 
+	switch(hex){
+		case "8950":
+			type = "image/png";
+			break;
+		case "4749":
+			type = "image/gif";
+			break;
+		case "424d":
+			type = "image/bmp";
+			break;
+		case "ffd8":
+			type = "image/jpg";
+			break;
+		default:
+			type = null;
+			break;
+	}
+	return type;
+}
