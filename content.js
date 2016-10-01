@@ -126,21 +126,25 @@ chrome.storage.sync.get(function(items) {
 		}
 		$(block).remove()
 	}
-	if (window.location.host.includes("postmarkcu") && items.postmark) {
-		if (window.location.href.includes("home")) {
-			$("[name='userid']").val("matthewmorrone1")
-			$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
+	if (items.postmark) {
+		console.log(items.postmark)
+		if (window.location.host.includes("postmarkcu")) {
+			if (window.location.href.includes("home")) {
+				$("[name='userid']").val("matthewmorrone1")
+				$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
+			}
+		}
+		if (window.location.host.includes("global1.onlinebank")) {
+			$("#accountListTable tr:last-child").remove()
+			$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
+			$("#payTo option:last-child").html("Savings")
+			$("#payFrom option, #payTo option").each(function() {
+				$(this).html($(this).text().replace(/\*\d\-\d+/g, ""))
+				$(this).html($(this).text().replace(/ 10 /, ""))
+			})
 		}
 	}
-	if (window.location.host.includes("global1.onlinebank") && items.postmark) {
-		$("#accountListTable tr:last-child").remove()
-		$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
-		$("#payTo option:last-child").html("Savings")
-		$("#payFrom option, #payTo option").each(function() {
-			$(this).html($(this).text().replace(/\*\d\-\d+/g, ""))
-			$(this).html($(this).text().replace(/ 10 /, ""))
-		})
-	}
+
 
 	if (window.location.host === "www.facebook.com") {
 		setTimeout(function() {
