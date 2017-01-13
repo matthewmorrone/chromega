@@ -14,9 +14,37 @@ chrome.storage.sync.get(function(items) {
 	if (Object.keys({items}).length === 0) {
 		init()
 	}
+	if (window.location.host.includes("elunic")) {
+
+
+// var worktime = 0;
+// var monday = moment().subtract(1, 'weeks').startOf('week').add(0, 'days');
+// var friday = moment().subtract(1, 'weeks').startOf('week').add({days:4, hours:23, minutes:59});
+// var today = moment();
+// eEmployee().to('working_time_entries')
+// .filterAttrib('arriving_time', '>', monday)
+// .filterAttrib('arriving_time', '<', friday)
+// .each(function(entry) {
+// 	worktime += entry.get('duration')
+// }, function() {
+// 	$('#reminderButton').parent().after(Math.floor(worktime/60)+':'+String(worktime%60).padStart(2, 0)+' / '+eEmployee().get('target_hours')+':00');
+// });
+// eEmployee().to('working_time_entries')
+// .filterAttrib('arriving_time', '=', today)
+// .filterAttrib('arriving_time', '<', friday)
+// .each(function(entry) {
+// 	worktime += entry.get('duration')
+// }, function() {
+// 	$('#reminderButton').parent().after(Math.floor(worktime/60)+':'+String(worktime%60).padStart(2, 0)+' / '+eEmployee().get('target_hours')+':00');
+// });
+
+
+
+
+
+	}
 	if (items.debug) {console.log("chromega", window.location, items)}
-	if ((window.location.host.includes("wikipedia") ||
-		window.location.host.includes("freeformatter")) && items.wikipedia) {
+	if ((window.location.host.includes("wikipedia") || window.location.host.includes("freeformatter")) && items.wikipedia) {
 		$(function() {
 			$("table").each(function() {
 				if ($(this).hasClass("processed")) {return}
@@ -48,10 +76,9 @@ chrome.storage.sync.get(function(items) {
 				var name = $(this).prevAll("h2").find(".mw-headline").text().replace(/ /g, "-").toLowerCase() || document.title
 				name += ".csv"
 				var content = $.map($table.find("tr"), function(a){
-					return $.map($(a).find("th,td"), function(b) {
-						log($(b).text(), $(b).html())
-						return $(b).text() || $(b).html()
-					}).join(",")
+					return $.map($(a).find("th, td"), function(b) {
+						return $(b).text().trim() || $(b).html()
+					}).join(":").replace(/,/g, ';').replace('-\n', '').replace(/:/g, ',')
 				}).join("\n")
 				exportFile(name, content)
 				$(".export").removeClass("export")
@@ -61,7 +88,6 @@ chrome.storage.sync.get(function(items) {
 	}
 
 	if (window.location.host.includes("cracked") && items.cracked) {
-		console.clear()
 		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
 		$(block).remove()
 		if (window.location.pathname.includes("photoplasty")) {
@@ -91,6 +117,9 @@ chrome.storage.sync.get(function(items) {
 						$(this).attr("src", $(this).attr("data-img"))
 					})
 					$(".dropShadowBottomCurved").removeClass("dropShadowBottomCurved")
+					if (items.gifreeze) {
+						$('[src$=".gif"]').freezeframe();
+					}
 				})
 			}
 		}
@@ -116,6 +145,9 @@ chrome.storage.sync.get(function(items) {
 			$(".leftColumn").after(sec)
 			$(sec).addClass(".leftColumn")
 			$(sec).load(nex + " .leftColumn", function() {
+				if (items.gifreeze) {
+					$('[src$=".gif"]').freezeframe();
+				}
 				$(sec).find(block).remove()
 				$(sec).find("header, footer").remove()
 				$(sec).find("img").each(function() {
@@ -127,7 +159,6 @@ chrome.storage.sync.get(function(items) {
 		$(block).remove()
 	}
 	if (items.postmark) {
-		console.log(items.postmark)
 		if (window.location.host.includes("postmarkcu")) {
 			if (window.location.href.includes("home")) {
 				$("[name='userid']").val("matthewmorrone1")
@@ -151,7 +182,7 @@ chrome.storage.sync.get(function(items) {
 			document.getElementById("u_ps_0_4_2").click()
 		}, 1000)
 	}
-	
+
 	if (window.location.host === "www.google.com" && items.google) {
 		var a, href, datahref, text
 		$(".r").each(function() {
@@ -206,6 +237,11 @@ chrome.storage.sync.get(function(items) {
 		})
 		// if (window.location.search.includes("repositories")) {
 		// 	document.elementFromPoint(1308, 138).click()
+		// }
+		// 
+
+		// a[href$=".pdf"]:before {
+		//   background: url('../images/document-pdf-text.png') no-repeat;
 		// }
 	}
 })

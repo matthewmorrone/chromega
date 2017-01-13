@@ -4,14 +4,14 @@
     "version": "1.0.0",
     "description": "As many useful keyboard shortcuts in a single extension as possible, plus other stuff.",
     "icons": {
-        "16": "psi.png",
-        "48": "psi.png",
-        "128": "psi.png"
+        "16": "psi_white.png",
+        "48": "psi_white.png",
+        "128": "psi_white.png"
     },
     "browser_action": {
         "default_icon": {
-            "19": "psi.png",
-            "38": "psi.png"
+            "19": "psi_white.png",
+            "38": "psi_white.png"
         },
         "default_title": "Chromega",
         "default_popup": "options.html"
@@ -21,8 +21,18 @@
             "http://*/*",
             "https://*/*"
         ],
-        "js": ["jquery.js", "util.js", "content.js"],
-        "css": ["content.css"],
+        "js": [
+            "jquery.js", 
+            "moment.js",
+            "util.js", 
+            "imagesloaded.js", 
+            "freezeframe.js", 
+            "content.js"
+        ],
+        "css": [
+            "content.css",
+            "freezeframe.css"
+        ],
         "run_at": "document_end",
         "all_frames": false,
         "match_about_blank": true
