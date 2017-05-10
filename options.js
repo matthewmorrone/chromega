@@ -6,11 +6,11 @@ var options = {
 	"github": true,
 	"google": true,
 	"inbox": true,
-	"peopleclick": true,
+	"newatlas": true,
 	"pinterest": true,
-	"postmark": true,
 	"wikipedia": true
 }
+
 
 // Saves options to chrome.storage
 function save() {
@@ -30,21 +30,21 @@ function restore() {
 	chrome.storage.sync.get(options, function(items) {
 		for (var k in items) {
 			document.getElementById(k).checked = items[k]
-			$(document.getElementById(k)).parents("label")[0].setAttribute("class", items[k] ? "enabled" : "disabled")
+			$(document.getElementById(k)).parents("li").addClass(items[k] ? "" : "disabled")
 		}
 	})
 }
 document.addEventListener('DOMContentLoaded', restore)
 
 $(function() {
-	$("label").click(function() {
-		save()
-		if ($(this).find("input[type='checkbox']")[0].checked === false) {
-			$(this).removeClass("enabled").addClass("disabled")
+	$("[type='checkbox']").change(function() {
+		if ($(this).is(':checked')) {
+			$(this).parents('li').removeClass("disabled")
 		}
 		else {
-			$(this).removeClass("disabled").addClass("enabled")
+			$(this).parents('li').addClass("disabled")
 		}
+		save()
 	})
 })
 

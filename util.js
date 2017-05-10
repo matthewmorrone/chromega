@@ -85,13 +85,35 @@ function getBase64Image(img) {
     return imgData
 }
 
+function Utils() {
+
+}
+
+Utils.prototype = {
+    constructor: Utils,
+    isElementInView: function (element, fullyInView) {
+        var pageTop = $(window).scrollTop();
+        var pageBottom = pageTop + $(window).height();
+        var elementTop = $(element).offset().top;
+        var elementBottom = elementTop + $(element).height();
+
+        if (fullyInView === true) {
+            return ((pageTop < elementTop) && (pageBottom > elementBottom));
+        } else {
+            return ((elementTop <= pageBottom) && (elementBottom >= pageTop));
+        }
+    }
+};
+
+var Utils = new Utils();
+
 function getImageType(arrayBuffer){
 	var type = "";
 	var dv = new DataView(arrayBuffer,0,5);
 	var nume1 = dv.getUint8(0,true);
 	var nume2 = dv.getUint8(1,true);
 	var hex = nume1.toString(16) + nume2.toString(16) ;
- 
+
 	switch(hex){
 		case "8950":
 			type = "image/png";

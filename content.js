@@ -60,6 +60,58 @@ chrome.storage.sync.get(function(items) {
 		})
 	}
 
+	if (window.location.host.includes("newatlas") && items.newatlas) {
+		var wheeldelta, wheeling, shiftKey
+		$(document).on('mousewheel', function(e) {
+			shiftKey = e.shiftKey
+			clearTimeout(wheeling)
+			wheeling = setTimeout(function() {
+				e.preventDefault()
+				wheeling = undefined
+				if (wheeldelta > 0) {
+					$(document).trigger('scrollDown', wheeldelta/100)
+
+					// if ($(window).scrollTop()+$(window).height() == $(document).height()) {
+					// 	$(document).trigger('scrollBottom', wheeldelta/100)
+					// }
+				}
+				wheeldelta = 0
+			}, 100)
+			wheeldelta += e.originalEvent.deltaY
+		});
+		$(document).on('scrollDown', function(e, delta) {
+			if ($(window).scrollTop()+$(window).height() >= $(document).height() - 100) {
+				$(document).trigger('scrollBottom', wheeldelta/100)
+			}
+			var page = Number.parseInt(window.location.pathname.split('/')[2] || 1, 10)
+			var next = page + 1
+
+			if (Utils.isElementInView($('.pagination'), true)) {
+				var sec = document.createElement("div")
+				var url = window.location.href
+				if (page === 1) {
+					url = url.slice(0, -1) + '/page/' + next + '/'
+				}
+				else {
+					url = url.slice(0, -3) + '/' + next + '/'
+				}
+
+				$(sec).load(url + " article", function() {
+					$('article').last().after($(sec).html())
+					window.history.pushState('Object', 'Title', '/page/'+next+"/");
+				})
+				$('.pagination').load(url + " .pagination")
+
+			}
+
+
+
+
+
+		})
+	}
+
+
 	if (window.location.host.includes("cracked") && items.cracked) {
 		console.clear()
 		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
@@ -151,7 +203,7 @@ chrome.storage.sync.get(function(items) {
 			document.getElementById("u_ps_0_4_2").click()
 		}, 1000)
 	}
-	
+
 	if (window.location.host === "www.google.com" && items.google) {
 		var a, href, datahref, text
 		$(".r").each(function() {
@@ -197,7 +249,7 @@ chrome.storage.sync.get(function(items) {
 
 	if ((window.location.host === "gist.github.com" || window.location.host.includes("github")) && items.github/*Gist*/) {
 		$(document).on("focus", ".js-site-search-focus", function() {
-			$(this).val("user:matthewmorrone1 ")
+			$(this).val("user:matthewmorrone1 ") // extract this from location object?
 			$(this).one("keydown", function(e) {
 				if (e.which === 8) {
 					$(this).val("")
