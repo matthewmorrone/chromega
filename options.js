@@ -2,13 +2,16 @@
 var options = {
 	"cracked": true,
 	"debug": true,
+	"gifreeze": true,
 	"gist": true,
 	"github": true,
 	"google": true,
 	"inbox": true,
 	"newatlas": true,
+	"peopleclick": true,
 	"pinterest": true,
-	"wikipedia": true
+	"postmark": true,
+	"wikipedia": true,
 }
 
 
@@ -45,6 +48,11 @@ $(function() {
 			$(this).parents('li').addClass("disabled")
 		}
 		save()
+		// chrome.tabs.getSelected(null, function(tab) {
+		//   var code = 'window.location.reload();';
+		//   chrome.tabs.executeScript(tab.id, {code: code});
+		// });
+		chrome.tabs.reload()
 	})
 })
 

@@ -54,9 +54,9 @@ Object.prototype.define("map", function(fn, ctx) {
 	});
 	return result;
 });
+
 function exportFile(name, content) {
-	log(content)
-	content = encodeURI(content)
+	content = encodeURI("\uFEFF"+content)
 	var a = document.createElement("a");
 	a.setAttribute("target", '_blank');
 	a.setAttribute("href", 'data:attachment/csv,' + content);
