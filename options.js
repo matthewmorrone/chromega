@@ -8,9 +8,7 @@ var options = {
 	"google": true,
 	"inbox": true,
 	"newatlas": true,
-	"peopleclick": true,
 	"pinterest": true,
-	"postmark": true,
 	"wikipedia": true,
 }
 

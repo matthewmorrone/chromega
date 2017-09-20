@@ -14,35 +14,6 @@ chrome.storage.sync.get(function(items) {
 	if (Object.keys({items}).length === 0) {
 		init()
 	}
-	if (window.location.host.includes("elunic")) {
-
-
-// var worktime = 0;
-// var monday = moment().subtract(1, 'weeks').startOf('week').add(0, 'days');
-// var friday = moment().subtract(1, 'weeks').startOf('week').add({days:4, hours:23, minutes:59});
-// var today = moment();
-// eEmployee().to('working_time_entries')
-// .filterAttrib('arriving_time', '>', monday)
-// .filterAttrib('arriving_time', '<', friday)
-// .each(function(entry) {
-// 	worktime += entry.get('duration')
-// }, function() {
-// 	$('#reminderButton').parent().after(Math.floor(worktime/60)+':'+String(worktime%60).padStart(2, 0)+' / '+eEmployee().get('target_hours')+':00');
-// });
-// eEmployee().to('working_time_entries')
-// .filterAttrib('arriving_time', '=', today)
-// .filterAttrib('arriving_time', '<', friday)
-// .each(function(entry) {
-// 	worktime += entry.get('duration')
-// }, function() {
-// 	$('#reminderButton').parent().after(Math.floor(worktime/60)+':'+String(worktime%60).padStart(2, 0)+' / '+eEmployee().get('target_hours')+':00');
-// });
-
-
-
-
-
-	}
 	if (items.debug) {console.log("chromega", window.location, items)}
 	if ((window.location.host.includes("wikipedia") || window.location.host.includes("freeformatter")) && items.wikipedia) {
 		$(function() {
@@ -89,6 +60,10 @@ chrome.storage.sync.get(function(items) {
 
 	if (window.location.host.includes("newatlas") && items.newatlas) {
 		var wheeldelta, wheeling, shiftKey
+		if (window.location.href.includes('page')) {
+			window.history.pushState('Object', 'Title', '/');
+
+		}
 		$(document).on('mousewheel', function(e) {
 			shiftKey = e.shiftKey
 			clearTimeout(wheeling)
@@ -109,11 +84,13 @@ chrome.storage.sync.get(function(items) {
 		$(document).on('scrollDown', function(e, delta) {
 			if ($(window).scrollTop()+$(window).height() >= $(document).height() - 100) {
 				$(document).trigger('scrollBottom', wheeldelta/100)
+				console.log('scrollBottom')
+
 			}
 			var page = Number.parseInt(window.location.pathname.split('/')[2] || 1, 10)
 			var next = page + 1
 
-			if (Utils.isElementInView($('.pagination'), true)) {
+			if (Utils.isElementInView($('.pagination'), false)) {
 				var sec = document.createElement("div")
 				var url = window.location.href
 				if (page === 1) {
@@ -122,10 +99,11 @@ chrome.storage.sync.get(function(items) {
 				else {
 					url = url.slice(0, -3) + '/' + next + '/'
 				}
-
+				// url = url.replace(/\/+/g, '/')
+				console.log(url)
 				$(sec).load(url + " article", function() {
 					$('article').last().after($(sec).html())
-					window.history.pushState('Object', 'Title', '/page/'+next+"/");
+					window.history.pushState('Object', 'Title', 'http://newatlas.com/page/'+next+"/");
 				})
 				$('.pagination').load(url + " .pagination")
 
@@ -290,7 +268,7 @@ chrome.storage.sync.get(function(items) {
 		// if (window.location.search.includes("repositories")) {
 		// 	document.elementFromPoint(1308, 138).click()
 		// }
-		// 
+		//
 
 		// a[href$=".pdf"]:before {
 		//   background: url('../images/document-pdf-text.png') no-repeat;
