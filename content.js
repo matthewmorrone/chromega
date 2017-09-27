@@ -57,12 +57,24 @@ chrome.storage.sync.get(function(items) {
 			// to-do: when column headers have a colspan
 		})
 	}
-
+	function diminish() {
+		$('h2.h1:contains("could"), h2.h1:contains("may")').each(function() {
+			$(this).css({
+				'font-size': '50%',
+				'color': 'lightgray'
+			})
+			$(this).parents('.content-snippet').find('.content-snippet__image').css({
+				'width': '50%',
+				'margin': 'auto',
+				'opacity': '.5'
+			})
+		})
+	}
 	if (window.location.host.includes("newatlas") && items.newatlas) {
 		var wheeldelta, wheeling, shiftKey
+		diminish()
 		if (window.location.href.includes('page')) {
-			window.history.pushState('Object', 'Title', '/');
-
+			window.history.pushState('Object', 'Title', '/')
 		}
 		$(document).on('mousewheel', function(e) {
 			shiftKey = e.shiftKey
@@ -72,7 +84,6 @@ chrome.storage.sync.get(function(items) {
 				wheeling = undefined
 				if (wheeldelta > 0) {
 					$(document).trigger('scrollDown', wheeldelta/100)
-
 					// if ($(window).scrollTop()+$(window).height() == $(document).height()) {
 					// 	$(document).trigger('scrollBottom', wheeldelta/100)
 					// }
@@ -82,15 +93,12 @@ chrome.storage.sync.get(function(items) {
 			wheeldelta += e.originalEvent.deltaY
 		});
 		$(document).on('scrollDown', function(e, delta) {
-			if ($(window).scrollTop()+$(window).height() >= $(document).height() - 100) {
-				$(document).trigger('scrollBottom', wheeldelta/100)
-				console.log('scrollBottom')
-
-			}
-			var page = Number.parseInt(window.location.pathname.split('/')[2] || 1, 10)
-			var next = page + 1
-
+			// if ($(window).scrollTop()+$(window).height() >= $(document).height() - 100) {
+			// 	$(document).trigger('scrollBottom', wheeldelta/100)
+			// }
 			if (Utils.isElementInView($('.pagination'), false)) {
+				var page = Number.parseInt(window.location.pathname.split('/')[2] || 1, 10)
+				var next = page + 1
 				var sec = document.createElement("div")
 				var url = window.location.href
 				if (page === 1) {
@@ -100,25 +108,20 @@ chrome.storage.sync.get(function(items) {
 					url = url.slice(0, -3) + '/' + next + '/'
 				}
 				// url = url.replace(/\/+/g, '/')
-				console.log(url)
 				$(sec).load(url + " article", function() {
 					$('article').last().after($(sec).html())
-					window.history.pushState('Object', 'Title', 'http://newatlas.com/page/'+next+"/");
+					window.history.pushState('Object', 'Title', 'http://newatlas.com/page/'+next+"/")
+					diminish()
+
 				})
 				$('.pagination').load(url + " .pagination")
-
 			}
-
-
-
-
-
 		})
 	}
 
 
 	if (window.location.host.includes("cracked") && items.cracked) {
-		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule.genericLeftModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r"
+		var loc, nex, sec, block = ".mainFrameModule.contentTopModule, .rightColumn, .headerWrapper, .mainAd, .socialShareModule, [target='_blank'] img, .recommendedForYourPleasureModule, #Comments, .FacebookLike, .trc_related_container.trc_spotlight_widget, .footer, .socialShareAfterContent, script, iframe, .trc_related_container.trc_spotlight_widget, #taboola-autosized-2r, #persistent-share"
 		$(block).remove()
 		if (window.location.pathname.includes("photoplasty")) {
 			loc = window.location.href
@@ -171,9 +174,9 @@ chrome.storage.sync.get(function(items) {
 			}
 			sec = document.createElement("div")
 			$(".leftColumn").find(".PaginationContent").remove()
-			$(".columnistsModule.genericLeftModule").remove()
+			$(".columnistsModule.genericLeftModule, .recommendedForYourPleasureFrendlyModule, #persistent-share").remove()
 			$(".leftColumn").after(sec)
-			$(sec).addClass(".leftColumn")
+			$(sec).addClass("leftColumn")
 			$(sec).load(nex + " .leftColumn", function() {
 				if (items.gifreeze) {
 					$('[src$=".gif"]').freezeframe();
@@ -184,6 +187,8 @@ chrome.storage.sync.get(function(items) {
 					$(this).attr("src", $(this).attr("data-img"))
 				})
 				$(".dropShadowBottomCurved").removeClass("dropShadowBottomCurved")
+				$(".leftColumn").removeAttr('style')
+
 			})
 		}
 		$(block).remove()
