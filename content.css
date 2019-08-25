@@ -14,14 +14,22 @@ body.uber-frame #advanced-settings {
 center iframe {
 	display: none;
 }
+.overlay img {
+	width: 50px;
 
+}
 #accountListTable tr:nth-child(3) {
-	background: #f3f3f3;	
+	background: #f3f3f3;
 }
 .noredirect {
 	font-size: 18px;
 }
-
+.meta {
+	margin-left: 5px;
+}
+.meta:hover {
+	color: link;
+}
 .export {
 	background-color: rgba(255, 255, 0, .5) !important;
 }
@@ -35,4 +43,13 @@ center iframe {
 figure, #preview {
 	background-color: black !important;
 	color: white !important;
+}
+.overlay {
+	display: block;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: "rgba(0, 0, 0, 0.25)"
 }

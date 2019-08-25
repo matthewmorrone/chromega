@@ -3,6 +3,7 @@ if (chrome.downloads) {
 		chrome.downloads.setShelfEnabled(false);
 	}
 }
+
 chrome.storage.sync.get(function(items) {
 	function sortHelper(c, d) {
 		return function(a, b) {
@@ -84,18 +85,12 @@ chrome.storage.sync.get(function(items) {
 				wheeling = undefined
 				if (wheeldelta > 0) {
 					$(document).trigger('scrollDown', wheeldelta/100)
-					// if ($(window).scrollTop()+$(window).height() == $(document).height()) {
-					// 	$(document).trigger('scrollBottom', wheeldelta/100)
-					// }
 				}
 				wheeldelta = 0
 			}, 100)
 			wheeldelta += e.originalEvent.deltaY
 		});
 		$(document).on('scrollDown', function(e, delta) {
-			// if ($(window).scrollTop()+$(window).height() >= $(document).height() - 100) {
-			// 	$(document).trigger('scrollBottom', wheeldelta/100)
-			// }
 			if (Utils.isElementInView($('.pagination'), false)) {
 				var page = Number.parseInt(window.location.pathname.split('/')[2] || 1, 10)
 				var next = page + 1
@@ -107,7 +102,6 @@ chrome.storage.sync.get(function(items) {
 				else {
 					url = url.slice(0, -3) + '/' + next + '/'
 				}
-				// url = url.replace(/\/+/g, '/')
 				$(sec).load(url + " article", function() {
 					$('article').last().after($(sec).html())
 					window.history.pushState('Object', 'Title', 'http://newatlas.com/page/'+next+"/")
@@ -193,63 +187,12 @@ chrome.storage.sync.get(function(items) {
 		}
 		$(block).remove()
 	}
-	if (items.postmark) {
-		if (window.location.host.includes("postmarkcu")) {
-			if (window.location.href.includes("home")) {
-				$("[name='userid']").val("matthewmorrone1")
-				$("[name='userid']").parents("tr").next().find("a[href*='submit'] img").click() //.css("-webkit-filter", "invert(1)")
-			}
-		}
-		if (window.location.host.includes("global1.onlinebank")) {
-			$("#accountListTable tr:last-child").remove()
-			$("#payFrom option:last-child, #payFrom option:nth-child(3), #payTo option:last-child, #payTo option:nth-child(3)").remove()
-			$("#payTo option:last-child").html("Savings")
-			$("#payFrom option, #payTo option").each(function() {
-				$(this).html($(this).text().replace(/\*\d\-\d+/g, ""))
-				$(this).html($(this).text().replace(/ 10 /, ""))
-			})
-		}
-	}
+
 
 
 	if (window.location.host === "www.facebook.com") {
-		setTimeout(function() {
-			document.getElementById("u_ps_0_4_2").click()
-		}, 1000)
 	}
 
-	if (window.location.host === "www.google.com" && items.google) {
-		var a, href, datahref, text
-		$(".r").each(function() {
-			$(this).find("a").each(function() {
-				href = $(this).attr("href")
-				text = $(this).text()
-				a = $("<a></a>")
-				a.href = href
-				a.innerHTML = text
-				a.target = "_blank"
-				$(this).after(a)
-			})
-		})
-		$(document).on("click", ".r a", function(e) {
-			e.preventDefault()
-			e.stopPropagation()
-			href = $(this).attr("href")
-			text = $(this).text()
-			datahref = $(this).attr("data-href")
-			if (datahref/* && !$(this).hasClass(".noredirect")*/) {
-				a = $("<a></a>")
-				a[0].href = datahref
-				a[0].innerHTML = text
-				a.attr("class", "noredirect")
-				a[0].target = "_blank"
-				$(this).parent().after(a)
-				$(this).remove()
-				$(a).click()
-			}
-			return false
-		})
-	}
 	if (window.location.host === "inbox.google.com" && items.googleInbox) {
 		$(".jS.kl").remove()
 		function removeImages() {
@@ -263,21 +206,87 @@ chrome.storage.sync.get(function(items) {
 
 	if ((window.location.host === "gist.github.com" || window.location.host.includes("github")) && items.github/*Gist*/) {
 		$(document).on("focus", ".js-site-search-focus", function() {
-			$(this).val("user:matthewmorrone1 ") // extract this from location object?
+			$(this).val("user:matthewmorrone ") // extract this from location object?
 			$(this).one("keydown", function(e) {
 				if (e.which === 8) {
 					$(this).val("")
 				}
 			})
 		})
-		// if (window.location.search.includes("repositories")) {
-		// 	document.elementFromPoint(1308, 138).click()
-		// }
-		//
+	}
 
-		// a[href$=".pdf"]:before {
-		//   background: url('../images/document-pdf-text.png') no-repeat;
-		// }
+	if (window.location.host.includes("messenger")) {
+
+
+		setTimeout(function() {
+
+			$('._1ht6').append("<span class='meta'>&#x27a4;</span>")
+			$('._1ht6').click(function() {
+				var link = $(this).parents('a').get(0).outerHTML, data = ""
+				link = link.match(/href=\"(.+?)\"/)[1]
+				setTimeout(function() {
+
+					$('#js_1 > div').each(function() {
+						var name = $(this).find('._ih3').text()+"".trim()
+						$(this).find('.clearfix ._o46').each(function() {
+							var row = ''
+							var time = $(this).find('[data-tooltip-content]').attr('data-tooltip-content')+"".trim()
+							var text = $(this).find('[body]').attr('body')+"".trim()
+							var atta = ''
+							var read = ''
+							if ($(this).find('._jf2').attr('title')) {
+								read = $(this).find('._jf2').attr('title')+"".trim()
+							}
+							if ($(this).find('._5rw4').attr('href')) {
+								atta = decodeURIComponent($(this).find('._5rw4').attr('href'))
+								atta = atta.replace(/^https\:\/\/facebook\.com\/l\.php\?u=/, "")
+								atta = atta.replace(/\?.+$/, "")
+							}
+							if (!text) {
+								return
+							}
+							if ($(this).find(".img").length > 0 && text == "undefined") {
+								var $cln = $($(this).find(".img").get(0)).clone()
+								$cln.width(50)
+								text = $cln[0].outerHTML
+							}
+							row = `<tr><td>${name}</td><td>${time}</td><td>${text}</td></tr>` //<td>${read}</td><td>${atta}</td>
+							data += row
+						})
+					})
+					$('.overlay').remove()
+					var $overlay = $('<div></div>', {class: 'overlay'}).css({
+						display: 'block',
+						position: 'fixed',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '100%',
+						backgroundColor: "rgba(0, 0, 0, 0.5)"
+					})
+					var $content = $('<div></div>').css({
+						display: 'block',
+						margin: 'auto',
+						marginTop: '100px',
+						width: '50%',
+						height: '70%',
+						backgroundColor: "rgba(255, 255, 255, 0.75)",
+						overflowY: 'scroll',
+					})
+					$content.html("<table>"+data+"</table>")
+					$overlay.append($content)
+
+					$(document.body).append($overlay)
+
+					$overlay.click(function() {
+						$('.overlay').remove()
+					})
+
+
+				}, 1000)
+			})
+		}, 2000)
+
 	}
 })
 

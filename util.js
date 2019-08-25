@@ -54,7 +54,9 @@ Object.prototype.define("map", function(fn, ctx) {
 	});
 	return result;
 });
-
+String.prototype.define("trim", function() {
+	return this.replace(/^\s+|\s+$/g, '')
+})
 function exportFile(name, content) {
 	content = encodeURI("\uFEFF"+content)
 	var a = document.createElement("a");
